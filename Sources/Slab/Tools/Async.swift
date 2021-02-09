@@ -24,6 +24,14 @@ public enum AsyncStatus<Value> {
         if case let .success(value, _) = self { return value }
         return nil
     }
+    
+    public func map<NewValue>(_ transform: (Value) -> NewValue) -> AsyncStatus<NewValue> {
+        switch self {
+            case let .failure(e, md): return .failure(e, md)
+            case let .loading(md): return .loading(md)
+            case let .success(v, md): return .success(transform(v), md)
+        }
+    }
 }
 
 public struct AsyncLoadingMetadata: Dated {
