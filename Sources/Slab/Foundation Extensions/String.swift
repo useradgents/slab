@@ -66,6 +66,17 @@ extension String {
         CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), key, key.count, self, self.count, &digest)
         return Data(digest)
     }
+
+    /// Append new Data from an UTF8 content given by an URL + add a line break
+    func appendNewLine(from: URL) throws {
+        try appending("\n").append(from: from)
+    }
+
+    /// Append new Data from an UTF8 content given by an URL
+    func append(from: URL) throws {
+        let data = self.data(using: String.Encoding.utf8)!
+        try data.append(from: from)
+    }
 }
 
 extension Optional where Wrapped == String {
