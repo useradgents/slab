@@ -34,6 +34,19 @@ extension Collection {
     }
 }
 
+
+extension Collection where Element: Collection {
+    /// Returns true if no element in this collection is empty.
+    public var noneIsEmpty: Bool {
+        first(where: {$0.isEmpty}) == nil
+    }
+    
+    /// Returns true if all elements in this collection are empty.
+    public var allAreEmpty: Bool {
+        first(where: {$0.isEmpty == false}) == nil
+    }
+}
+
 extension Collection where Element: Equatable {
     /// Returns the collection where all instances of an element have been replaced by another element.
     ///
