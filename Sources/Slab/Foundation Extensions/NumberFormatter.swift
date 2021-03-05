@@ -1,15 +1,25 @@
 import Foundation
 
 extension String.StringInterpolation {
-    public mutating func appendInterpolation(percent value: Double) {
-        appendInterpolation(value, using: NumberFormatter.percentageFormatter)
-    }
-    
-    public mutating func appendInterpolation(euros value: Double) {
-        appendInterpolation(value, using: NumberFormatter.euroFormatter)
-    }
-    
+    /// Allow formatting Double values with Swift 5 string interpolation
+    ///
+    /// ```
+    /// print("\(percentageDone, using: .percent) done")
+    /// // if percent = 0.25, will print "25% done"
+    /// ```
     public mutating func appendInterpolation(_ value: Double, using formater: NumberFormatter) {
+        if let result = formater.string(from: NSNumber(value: value)) {
+            appendLiteral(result)
+        }
+    }
+    
+    /// Allow formatting Float values with Swift 5 string interpolation
+    ///
+    /// ```
+    /// print("\(percentageDone, using: .percent) done")
+    /// // if percent = 0.25, will print "25% done"
+    /// ```
+    public mutating func appendInterpolation(_ value: Float, using formater: NumberFormatter) {
         if let result = formater.string(from: NSNumber(value: value)) {
             appendLiteral(result)
         }
@@ -17,7 +27,8 @@ extension String.StringInterpolation {
 }
 
 extension NumberFormatter {
-    public static let percentageFormatter: NumberFormatter = {
+    /// Common NumberFormatter for percentages: `percent` number style, 0 to 2 fraction digits
+    public static let percentage: NumberFormatter = {
         let f = NumberFormatter()
         f.minimumFractionDigits = 0
         f.maximumFractionDigits = 2
@@ -25,14 +36,16 @@ extension NumberFormatter {
         return f
     }()
     
-    public static let euroFormatter: NumberFormatter = {
+    /// Common NumberFormatter for Euro values: `currency` number style, `EUR` currency code.
+    public static let euros: NumberFormatter = {
         let f = NumberFormatter()
         f.numberStyle = .currency
         f.currencyCode = "EUR"
         return f
     }()
     
-    public  static let decimalFormatter: NumberFormatter = {
+    /// Common NumberFormatter for decimal values: `decimal` number style, 0 to 2 fraction digits
+    public  static let decimal: NumberFormatter = {
         let f = NumberFormatter()
         f.minimumFractionDigits = 0
         f.maximumFractionDigits = 2

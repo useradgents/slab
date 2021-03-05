@@ -1,5 +1,20 @@
 import Foundation
 
+/**
+ Results of an asynchronous network call from a webservice, with associated metadata
+ 
+ Generics: `<Value>` represents the loaded data. Usually a model struct or object.
+ 
+ Cases:
+ - `loading(meta)`: the data is currently loading.
+     - `meta`: see `AsyncLoadingMetadata`
+ - `success(value, meta)`: the data has been loaded correctly.
+     - `value`: the actual `Value` loaded
+     - `meta`: see `AsyncSuccessMetadata`
+ - `failure(error, meta)`: an error has been encountered and no `Value` has been loaded.
+     - `error`: the `Error` encountered
+     - `meta`: see `AsyncFailureMetadata`
+ */
 public enum AsyncStatus<Value> {
     case loading(AsyncLoadingMetadata)
     case success(Value, AsyncSuccessMetadata)
@@ -34,10 +49,18 @@ public enum AsyncStatus<Value> {
     }
 }
 
+/// The metadata associated with a `AsyncStatus.loading` case
 public struct AsyncLoadingMetadata: Dated {
+    /// The `Date` at which the request has started
     public let date: Date
+    
+    /// A slient request should not display an activity indicator while loading
     public let silent: Bool
+    
+    /// This request is allowed to read its data from cache, if available
     public let readFromCache: Bool
+    
+    /// This request will write any successful answer to the cache, if available
     public let writeToCache: Bool
     
     public init(date: Date? = nil, silent: Bool = false, readFromCache: Bool = false, writeToCache: Bool = false) {
@@ -55,19 +78,16 @@ public struct AsyncLoadingMetadata: Dated {
     }
 }
 
-public struct AsyncFailureMetadata: Dated {
-    public let date: Date
-    
-    public init(date: Date = .init()) {
-        self.date = date
-    }
-}
-
+/// The metadata associated with a `AsyncStatus.success` case
 public struct AsyncSuccessMetadata: Dated {
+    /// The `Date` at which the operation did succeed
     public let date: Date
-    public let isRefreshing: Bool
-    public let source: Source
     
+    /// Indicates whether the request is reloading somewhere else (like in the background, while still displaying this potentially stale Value)
+    public let isRefreshing: Bool
+    
+    /// Indicates the source of the Value (network or cache)
+    public let source: Source
     public enum Source: Int {
         case network
         case cache
@@ -79,11 +99,21 @@ public struct AsyncSuccessMetadata: Dated {
         self.source = source
     }
     
+    /// Returns a copy of these metadata with the `isRefreshing` flag set to true.
     public var madeRefreshing: AsyncSuccessMetadata {
         .init(date: date, isRefreshing: true, source: source)
     }
 }
 
+/// The metadata associated with a `AsyncStatus.failure` case
+public struct AsyncFailureMetadata: Dated {
+    /// The `Date` at which the error occured
+    public let date: Date
+    
+    public init(date: Date = .init()) {
+        self.date = date
+    }
+}
 
 extension AsyncStatus: Equatable where Value: Equatable {
     public static func == (lhs: AsyncStatus<Value>, rhs: AsyncStatus<Value>) -> Bool {
@@ -96,9 +126,15 @@ extension AsyncStatus: Equatable where Value: Equatable {
     }
 }
 
+/// Generic metadata used to represent a network request information before it's started
 public struct RequestMetadata {
+    /// A slient request should not display an activity indicator while loading
     public let silent: Bool
+    
+    /// This request is allowed to read its data from cache, if available
     public let readFromCache: Bool
+    
+    /// This request will write any successful answer to the cache, if available
     public let writeToCache: Bool
     
     public init(silent: Bool, readFromCache: Bool, writeToCache: Bool) {

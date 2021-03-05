@@ -11,15 +11,27 @@ public postfix func † (left: String) -> String {
 }
 
 extension String {
+    /// Tests if the string matches a regular expression
+    public func matches(_ regex: String) -> Bool {
+        range(of: regex, options: [.regularExpression]) != nil
+    }
+    
+    /// Returns a version of the string with diacritics removed (eg: "Älphàbêt" becomes "Alphabet").
+    public var withoutDiacritics: String {
+        folding(options: [.diacriticInsensitive], locale: .current)
+    }
+    
+    /// Returns the initials of the string, by keeping the first character of each word.
     public var initials: String {
         components(separatedBy: .whitespacesAndNewlines).compactMap { String($0.first ?? Character("")) }.joined()
     }
     
+    /// Returns a sort-friendly variant of the string (all lowercase, without diacritics).
     public var forSort: String {
-        localizedLowercase.folding(options: .diacriticInsensitive, locale: .current)
+        localizedLowercase.withoutDiacritics
     }
     
-    // Remove all diacritics, uppercase, keep only alphanumerics
+    /// Returns a sort-friendly variant of the string (all uppercase, without diacritics, keeping only alphanumerics)
     public var cleanedUp: String {
         String(self
                 .folding(options: .diacriticInsensitive, locale: nil)
@@ -28,6 +40,7 @@ extension String {
         )
     }
     
+    /// Returns the SHA-1 hash of the string
     public func sha1() -> String {
         let data = Data(self.utf8)
         var digest = [UInt8](repeating: 0, count:Int(CC_SHA1_DIGEST_LENGTH))

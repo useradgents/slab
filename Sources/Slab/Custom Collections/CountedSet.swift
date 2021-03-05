@@ -68,7 +68,7 @@ public struct CountedSet<Element: Hashable & CaseIterable>: ExpressibleByArrayLi
     public static var zero: CountedSet<Element> { CountedSet<Element>.init() }
 }
 
-// MARK: - Collection
+// MARK: - Collection conformance
 
 extension CountedSet: Collection {
     public var startIndex: SetIndex<Element> {
@@ -92,7 +92,7 @@ extension CountedSet: Collection {
     }
 }
 
-// MARK: - Hashable
+// MARK: - Hashable conformance
 
 extension CountedSet: Hashable {
     public func hash(into hasher: inout Hasher) {
@@ -107,7 +107,7 @@ public func == <Element>(lhs: CountedSet<Element>, rhs: CountedSet<Element>) -> 
     lhs.backing == rhs.backing && lhs.countByElement == rhs.countByElement
 }
 
-// MARK: - CustomStringConvertible
+// MARK: - CustomStringConvertible conformance
 
 extension CountedSet: CustomStringConvertible {
     public var description: String {
@@ -116,6 +116,8 @@ extension CountedSet: CustomStringConvertible {
         }
     }
 }
+
+// MARK: - Codable conformance
 
 extension CountedSet: Codable where Element: Codable {
     struct CodedElementAndCount<Element: Codable>: Codable {

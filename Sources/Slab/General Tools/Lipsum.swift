@@ -1,6 +1,8 @@
 import Foundation
 
+/// Placeholder text generator
 public enum Lipsum {
+    /// Generate a random number of words in the given word count range
     public static func words(_ count: ClosedRange<Int>) -> String {
         var remaining = count.randomElement() ?? 1
         var ret: [String] = []
@@ -16,19 +18,34 @@ public enum Lipsum {
         return words
     }
     
+    /// Generate a random number of phrases in the given phrase count range, specifying the separator between each phrase
     public static func phrases(_ count: ClosedRange<Int>, separator: String = "\n") -> String {
         let count = count.randomElement() ?? 1
         return (0..<count).map { _ in words.randomElement()!.joined(separator: " ") }.joined(separator: separator)
     }
     
+    /// Generate a given number of words
     public static func words(_ count: Int) -> String { words(count...count) }
+    
+    /// Generate a random string of 1 to 3 words
     public static func fewWords() -> String { words(1...3) }
+    
+    /// Generate a random string of 3 to 8 words
     public static func someWords() -> String { words(3...8) }
+    
+    /// Generate a random string of 8 to 20 words
     public static func manyWords() -> String { words(8...20) }
     
+    /// Generate a given number of phrases, specifying the separator between each phrase
     public static func phrases(_ count: Int, separator: String = "\n") -> String { phrases(count...count, separator: separator) }
+    
+    /// Generate a small (between 1 and 3) number of random phrases
     public static func fewPhrases(separator: String = "\n") -> String { phrases(1...3, separator: separator) }
+    
+    /// Generate an average (between 3 and 8) number of random phrases
     public static func somePhrases(separator: String = "\n") -> String { phrases(3...8, separator: separator) }
+    
+    /// Generate a large (between 8 and 20) number of random phrases
     public static func manyPhrases(separator: String = "\n") -> String { phrases(8...20, separator: separator) }
     
     static let words = [
