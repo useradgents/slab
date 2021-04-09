@@ -4,6 +4,11 @@ In house building, a slab is what's just over the foundations. So Slab is an ove
 
 It also provides two tools described in [Useradgents’ iOS Architecture Guide](about:) : the Version Wizard, and the Environment Manager (with its associated Configuration Encryptor).
 
+### Authors
+- Cyrille Legrand <[c.legrand@useradgents.com](mailto:c.legrand@useradgents.com)>
+- Julien Pipard <[j.pipard@useradgents.com](mailto:j.pipard@useradgents.com)>
+- Thejus Thejus <[t.thejus@useradgents.com](mailto:t.thejus@useradgents.com)>
+
 
 ## Dependencies
 
@@ -19,10 +24,10 @@ Slab automatically adds common dependencies to your project:
 
 - **Extension on `Array`:**
 
-    `func removing(at: Index) -> Array`  
+    `removing(at: Index) -> Array`  
         Returns a copy of the Array with the nth Element removed
 
-    `func appending(_: Element) -> Array`  
+    `appending(_: Element) -> Array`  
         Returns a copy of the Array with the given Element appended
         
 - **Extension on `Collection`:**
@@ -49,7 +54,25 @@ Slab automatically adds common dependencies to your project:
 
     `subscript(id: Element.ID) -> Element?`  
         Access identifiable elements by subscripting their id
+        
+- **Extension on `Collection<Equatable>`:**  
 
+    `replacing(_: Element, with: _Element) -> [Element]`  
+        Returns a copy of the collection with each occurence of an element replaced with another.
+        
+
+- **Extension on `Collection<Collection>`:** 
+
+    `var noneIsEmpty: Bool`  
+        Returns true if no element in this collection is empty 
+
+    `var allAreEmpty: Bool`  
+        Returns true if all elements in this collection are empty
+
+- **Extension on `Sequence`:**  
+
+    `sorted<T>(by: KeyPath<Element, T>, reversed: Bool = false) -> [Element]`  
+        Returns the sequence sorted by ascending keypath, optionally reversed.
 
 ### Codable.swift
 - Provides both `JSONEncoder.shared` and `JSONDecoder.shared` (with no customization).
@@ -65,7 +88,7 @@ Slab automatically adds common dependencies to your project:
         Encodes an instance of the indicated type and writes it to the given URL
 
 
-### Date.swift, DateComponents.swift, DateFormatter.swift
+### Date.swift, DateComponents.swift, DateFormatter.swift, TimeInterval.swift
 
  Notably, these extensions allow creating DateComponents by writing
  
@@ -77,6 +100,7 @@ Slab automatically adds common dependencies to your project:
     1.year.and(2.months).fromNow
     Date.tomorrow >> 3.hours
 
+They also implement Swift 5 string interpolation for dates: `let str = "See you on \(date, using: .shortDate)"`
 
 - **New protocol**
 
@@ -85,8 +109,8 @@ Slab automatically adds common dependencies to your project:
 
 - **Extension on `Date`:**
 
-    `func progress(between: Date, and: Date) -> Double`  
-    `func progress(in: ClosedRange<Date>) -> Double`  
+    `progress(between: Date, and: Date) -> Double`  
+    `progress(in: ClosedRange<Date>) -> Double`  
         Returns the fraction of time elapsed between two dates, as a Double in the range `0...1`
 
     `var dmy: DateComponents`  
@@ -140,6 +164,174 @@ Slab automatically adds common dependencies to your project:
     `Date << DateComponents -> Date`  
         Subtracts DateComponents to a Date according to the current Calendar
 
+- **Extension on `Int`:**
+
+    `var seconds: DateComponents`  
+    `var minutes: DateComponents`  
+    `var hours: DateComponents`  
+    `var days: DateComponents`  
+    `var weeks: DateComponents`  
+    `var months: DateComponents`  
+    `var years: DateComponents`  
+    `var second: DateComponents`  
+    `var minute: DateComponents`  
+    `var hour: DateComponents`  
+    `var day: DateComponents`  
+    `var week: DateComponents`  
+    `var month: DateComponents`  
+    `var year: DateComponents`  
+        Allow creating DateComponents by writing `1.year` or `3.minutes`
+
+- **Extension on `DateComponents`:**
+
+    `func and(_: DateComponents) -> DateComponents`  
+        Adds other DateComponents to these DateComponents. Allows writing `1.year.and(3.months)`
+
+    `var negated: DateComponents`  
+        Negates all values of these DateComponents. Allows writing `1.year.and(1.day.negated)`
+
+    `var date: Date`  
+        Returns the Date corresponding to these DateComponents, according the the current Calendar
+
+    `var ago: Date`  
+        Returns the current Date according to the current Calendar, minus these DateComponents. Allows writing `let threeHoursAgo: Date = 3.hours.ago`
+
+    `var fromNow: Date`  
+        Returns the current Date according to the current Calendar, adding these DateComponents. Allows writing `let nextYear: Date = 1.year.fromNow`
+
+    `static var today: DateComponents`  
+        Returns the day, month, year components for today
+
+- **Extension on `TimeInterval`:**
+
+    `var minutes: Int`  
+    `var hours: Int`  
+        Returns the number of minutes or hours in this TimeInterval
+
+- **Extension on `DateFormatter`:**
+
+    `convenience init(dateFormat: String)`  
+        Initializes a DateFormatter with the given date format
+
+    `convenience init(dateStyle: DateFormatter.Style, timeStyle: DateFormatter.Style, relative: Bool = false)`  
+        Initializes a DateFormatter with the given date style, time style and `relative` flag
+
+- **Common DateFormatters**
+
+| `DateFormatter.` | Style | Example (fr_FR) |
+|---|---|---|
+| `.shortDate` | Short date, no time | 09/04/2021 |
+| `.shortTime` | No date, short time | 16:59 |
+| `.relativeDate` | Short date, no time, relative | demain |
+| `.relativeDateTime` | Short date, short time, relative | demain 04:53 |
+| `.isoDate` | ISO 8601 date | 2021-04-09 |
+| `.isoDateTime` | ISO 8601 date and time | 2021-04-09T14:59:52+0000 |
+| `.isoDateTimeMilliseconds` | ISO 8601 date and time (with ms) | 2021-04-09T14:59:52.059Z |
+
+- **String Interpolation**
+
+    `"\(Date, using: DateFormatter)"`  
+        Example : `print("See you at \(startTime, using: .shortTime)")`
+
+### Identifiable.swift
+
+- **Extension on `Array<Identifiable>`:**
+
+     `var keyedByID: [Element.ID: Element]`  
+        Returns a dictionary where all elements of this array are keyed by their id
+
+### Numbers.swift, NumberFormatter.swift
+
+- **String Interpolation**
+
+    `"\(Int|Double|Float, using: NumberFormatter)"`  
+        Example : `print("\(percentage, using: .percent) done")` with percentage = 0.25 prints "25% done"
+
+- **Common NumberFormatters**
+
+| `NumberFormatter.` | Style | Example (fr_FR) |
+|---|---|---|
+| `.percentage` | `percent` style, 0 to 2 fraction digits | 0.25 → "25%" |
+| `.euros` | `currency` style with `EUR` code | 42 → "42,00 €" |
+| `.decimal` | `decimal` style, 0 to 2 fraction digits | 13.3724 → "13,37" |
+
+- **Easing and interpolation**
+
+    `ease(F) -> F`  
+        sin-wave easing from [0...1] to [0...1]  
+        Global-scope method where F is either CGFloat, Float or Double.
+
+    `fallIn(from: ClosedRange<Self>, to: ClosedRange<Self> = 0...1) -> Self`  
+    `fallOff(from: ClosedRange<Self>, to: ClosedRange<Self> = 0...1) -> Self`  
+        Maps value from the range `inRange` to `outRange`, rising up (fall-in) or down (fall-off). See ASCII-art comment at the top of `Numbers.swift` for a graphical explanation.  
+        Works on all instances of types conforming to `FloatingPoint` (CGFloat, Float, Double)
+ 
+ 
+### OptionSet.swift
+
+Allows `OptionSet`s to conform to `Sequence` so they become natively iterable.
+
+```
+struct WeekdaySet: OptionSet, Sequence {
+    let rawValue: Int
+    static let monday = WeekdaySet(rawValue: 1 << 0)
+    ...
+}
+
+let weekdays: WeekdaySet = [.monday, .tuesday]
+for weekday in weekdays {
+    // Do something with weekday
+}
+```
+
+### Range.swift
+
+- **Safe range formation operators**
+
+Swift will crash at runtime if creating a range from values that are not in ascending order. Slab introduces two operators `....` and `...<` which fix this problem.
+
+- **Common `ClosedRange<Int>`:**
+
+```
+public static var zero: ClosedRange<Int> = 0 ... 0
+public static var zeroOrOne: ClosedRange<Int> = 0 ... 1
+public static var any: ClosedRange<Int> = 0 ... Int.max
+public static var one: ClosedRange<Int> = 1 ... 1
+public static var oneOrMore: ClosedRange<Int> = 1 ... Int.max
+```
+
+### String.swift
+
+- **Localization operator**
+
+```
+"hello"† == NSLocalizedString("hello", comment: "?⃤ hello ?⃤")
+```
+
+The cross `†` is done with alt+T on a US (QWERTY) or FR (AZERTY) keyboard. It looks like a T, so it reads like Translated
+
+- **Extension on `String`:**
+
+     `func matches(_ regex: String) -> Bool`  
+        Tests if the String matches a given regular expression.
+
+     `var withoutDiacritics: String`  
+        Returns a version of the string with diacritics removed (eg: "Älphàbêt" becomes "Alphabet").
+
+     `var initials: String`  
+        Returns the initials of the string, by keeping the first character of each word.
+
+     `var forSort: String`  
+        Returns a sort-friendly variant of the string (all lowercase, without diacritics).
+
+     `var cleanedUp: String`  
+        Returns another sort-friendly variant of the string (all uppercase, without diacritics, keeping only alphanumerics).
+
+     `func sha1() -> String`  
+        Returns the SHA-1 hash of the string.
+
+     `func sha256() -> String`  
+        Returns the SHA-256 hash of the string.
 
 
 

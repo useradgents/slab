@@ -1,43 +1,23 @@
 import Foundation
+/**
+ Allows `OptionSet`s to conform to `Sequence` so they become natively iterable.
+ 
+ Taken straight from [https://stackoverflow.com/a/47306053](https://stackoverflow.com/a/47306053)
+ 
+ ```
+ struct WeekdaySet: OptionSet, Sequence {
+ let rawValue: Int
+ static let monday = WeekdaySet(rawValue: 1 << 0)
+ ...
+ }
+ 
+ let weekdays: WeekdaySet = [.monday, .tuesday]
+ for weekday in weekdays {
+ // Do something with weekday
+ }
+ ```
+ */
 
-// Straight from https://stackoverflow.com/a/47306053 :
-//
-// Right now every time you create an OptionSet, just conform it to Sequence.
-//
-// struct WeekdaySet: OptionSet, Sequence {
-//     let rawValue: Int
-//
-//     ...
-// }
-// You should now be able to iterate over it:
-//
-// let weekdays: WeekdaySet = [.monday, .tuesday]
-// for weekday in weekdays {
-//     // Do something with weekday
-// }
-
-/// Allows iterating over option sets
-///
-/// Taken straight from [https://stackoverflow.com/a/47306053](https://stackoverflow.com/a/47306053) :
-///
-/// Right now every time you create an OptionSet, just conform it to Sequence.
-///
-/// ```
-/// struct WeekdaySet: OptionSet, Sequence {
-///     let rawValue: Int
-///     ...
-/// }
-/// ```
-///
-/// You should now be able to iterate over it:
-///
-/// ```
-/// let weekdays: WeekdaySet = [.monday, .tuesday]
-/// for weekday in weekdays {
-///     // Do something with weekday
-/// }
-/// ```
-///
 public struct OptionSetIterator<Element: OptionSet>: IteratorProtocol where Element.RawValue: FixedWidthInteger {
     private let value: Element
     

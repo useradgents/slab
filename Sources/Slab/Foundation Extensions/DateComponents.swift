@@ -29,6 +29,15 @@ extension Int {
     public var year:    DateComponents { DateComponents(year: self) }
 }
 
+
+
+
+
+
+
+
+
+
 extension DateComponents {
     /// Adds other DateComponents to these DateComponents
     ///
@@ -90,5 +99,5 @@ extension DateComponents {
     public var fromNow: Date { Calendar.current.date(byAdding: self, to: Date())! }
     
     /// Returns the day, month, year components for today
-    public static var today: DateComponents { Calendar.current.dateComponents([.day, .month, .year], from: Date()) }
+    public static var today: DateComponents { Date().dmy }
 }

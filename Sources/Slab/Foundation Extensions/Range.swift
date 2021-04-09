@@ -1,10 +1,16 @@
 import Foundation
 
-infix operator ....: RangeFormationPrecedence
+infix operator .... : RangeFormationPrecedence
+infix operator ...< : RangeFormationPrecedence
 
 /// Creates a closed range with values that may not be in ascending order
 public func .... <T: Comparable>(lhs: T, rhs: T) -> ClosedRange<T> {
     min(lhs, rhs) ... max(lhs, rhs)
+}
+
+/// Creates a half-open range with values that may not be in ascending order
+public func ...< <T: Comparable>(lhs: T, rhs: T) -> Range<T> {
+    min(lhs, rhs) ..< max(lhs, rhs)
 }
 
 extension ClosedRange: ExpressibleByIntegerLiteral where Bound == Int {

@@ -24,6 +24,13 @@ extension String.StringInterpolation {
             appendLiteral(result)
         }
     }
+    
+    /// Allow formatting Int values with Swift 5 string interpolation
+    public mutating func appendInterpolation(_ value: Int, using formater: NumberFormatter) {
+        if let result = formater.string(from: NSNumber(value: value)) {
+            appendLiteral(result)
+        }
+    }
 }
 
 extension NumberFormatter {
@@ -45,7 +52,7 @@ extension NumberFormatter {
     }()
     
     /// Common NumberFormatter for decimal values: `decimal` number style, 0 to 2 fraction digits
-    public  static let decimal: NumberFormatter = {
+    public static let decimal: NumberFormatter = {
         let f = NumberFormatter()
         f.minimumFractionDigits = 0
         f.maximumFractionDigits = 2
