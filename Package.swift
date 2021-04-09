@@ -8,9 +8,13 @@ let package = Package(
     products: [
         .library(name: "Slab", targets: ["Slab"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(name: "RNCryptor", url: "https://github.com/RNCryptor/RNCryptor.git", .branch("release")),
+        .package(name: "KeychainSwift", url: "https://github.com/evgenyneu/keychain-swift.git", .branch("master")),
+        .package(name: "Reachability", url: "https://github.com/ashleymills/Reachability.swift.git", .branch("master"))
+    ],
     targets: [
-        .target(name: "Slab", dependencies: []),
+        .target(name: "Slab", dependencies: ["RNCryptor", "KeychainSwift", "Reachability"]),
         .testTarget(name: "SlabTests", dependencies: ["Slab"]),
     ],
     swiftLanguageVersions: [.v5]

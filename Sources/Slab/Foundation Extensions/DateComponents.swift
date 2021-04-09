@@ -7,6 +7,7 @@ import Foundation
  Or creating past/future Date by writing
  18.months.ago
  1.year.and(2.months).fromNow
+ Date.tomorrow >> 3.hours
  
  */
 

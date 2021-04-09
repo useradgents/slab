@@ -50,17 +50,17 @@ extension Collection where Element: Equatable {
 }
 
 extension Optional where Wrapped: Collection {
-    /// A Boolean value indicating whether the optional is nil or the wrapped value is empty.
+    /// A Boolean value indicating whether the optional is nil or the wrapped collection is empty.
     public var isEmpty: Bool {
         map(\.isEmpty) ?? true
     }
     
-    /// A Boolean value indicating whether the wrapped value is defined and not empty.
+    /// A Boolean value indicating whether the wrapped collection is not nil and not empty.
     public var isNotEmpty: Bool {
         map(\.isNotEmpty) ?? false
     }
     
-    /// Collapses empty wrapped values into nil
+    /// Collapses an empty wrapped collection into a nil
     public var nilIfEmpty: Self {
         isEmpty ? nil : self
     }
