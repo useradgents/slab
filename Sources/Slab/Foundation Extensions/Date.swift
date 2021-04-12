@@ -34,6 +34,11 @@ extension Date {
     /// Returns a Bool indicating whether the Date is tomorrow, according to the current Calendar
     public var isTomorrow: Bool { midnight == Date.tomorrow.midnight }
     
+    /// Returns a Bool indicating whether the Date is around now, with a given delta.
+    public func isAroundNow(secondsDelta: TimeInterval) -> Bool {
+        abs(timeIntervalSinceNow) <= secondsDelta
+    }
+    
     /// Returns a Date with hour, minute and second components set to 0, according to the current Calendar
     public var midnight: Date {
         Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)!

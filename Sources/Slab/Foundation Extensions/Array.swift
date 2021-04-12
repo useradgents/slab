@@ -24,4 +24,19 @@ extension Array {
     public mutating func popLast() -> Element? {
         isEmpty ? nil : removeLast()
     }
+    public mutating func sort<T: Comparable>(by keyPath: KeyPath<Element, T>, reversed r: Bool = false) {
+        if r {
+            sort { $0[keyPath: keyPath] > $1[keyPath: keyPath] }
+        }
+        else {
+            sort { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
+        }
+    }
+}
+
+extension Array where Element: Equatable {
+    /// Returns an array containing the unique elements of this Array
+    public func uniq() -> [Element] {
+        reduce(into: []) { if !$0.contains($1) { $0.append($1) } }
+    }
 }

@@ -50,6 +50,16 @@ extension Collection where Element: Collection {
     public var allAreEmpty: Bool {
         first(where: {$0.isEmpty == false}) == nil
     }
+    
+    /// Returns true if at least one of the elements in this collection is not empty.
+    public var hasOneNotEmpty: Bool {
+        first(where: {$0.isNotEmpty}) != nil
+    }
+    
+    /// Returns true if at least one of the elements in this collection is empty.
+    public var hasOneEmpty: Bool {
+        first(where: {$0.isEmpty}) != nil
+    }
 }
 
 extension Collection where Element: Equatable {

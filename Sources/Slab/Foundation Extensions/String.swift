@@ -10,6 +10,12 @@ public postfix func † (left: String) -> String {
     NSLocalizedString(left, comment: "?⃤ " + left + " ?⃤")
 }
 
+// Pilcrow ¶ is done as alt+7 on a US (QWERTY) keyboard
+postfix operator ¶
+public postfix func ¶ (left: String) -> String {
+    left.hasSuffix("\n") ? left : left.appending("\n")
+}
+
 extension String {
     /// Tests if the string matches a regular expression
     public func matches(_ regex: String) -> Bool {
@@ -40,6 +46,11 @@ extension String {
         )
     }
     
+    /// Returns the String with all spaces changed into unbreakable spaces.
+    public var unbreakable: String {
+        return self.replacingOccurrences(of: " ", with: " ")
+    }
+    
     /// Returns the SHA-1 hash of the string
     public func sha1() -> String {
         let data = Data(utf8)
@@ -68,7 +79,7 @@ extension String {
     }
 
     /// Append new Data from an UTF8 content given by an URL + add a line break
-    func appendNewLine(from: URL) throws {
+    public func appendNewLine(from: URL) throws {
         try appending("\n").append(from: from)
     }
 
@@ -76,6 +87,41 @@ extension String {
     func append(from: URL) throws {
         let data = self.data(using: String.Encoding.utf8)!
         try data.append(from: from)
+    }
+    
+    public func suffix(from start: Int) -> String {
+        let pos = index(startIndex, offsetBy: start)
+        return String(self[pos...])
+    }
+    
+    public func prefix(removing end: Int) -> String {
+        let pos = index(endIndex, offsetBy: -end-1)
+        return String(self[...pos])
+    }
+    
+    public func removing(prefix: String) -> String {
+        if hasPrefix(prefix) {
+            return suffix(from: prefix.count)
+        }
+        return self
+    }
+    
+    public func removing(suffix: String) -> String {
+        if hasSuffix(suffix) {
+            return prefix(removing: suffix.count)
+        }
+        return self
+    }
+    
+    public func removing(prefixes: [String], stopAfterFirst: Bool = true) -> String {
+        var ret = self
+        for prefix in prefixes {
+            if hasPrefix(prefix) {
+                ret = suffix(from: prefix.count)
+                if stopAfterFirst { return ret }
+            }
+        }
+        return ret
     }
 }
 
@@ -91,3 +137,4 @@ extension Collection where Element == String? {
         return mapped.isEmpty ? nil : mapped.joined(separator: separator)
     }
 }
+

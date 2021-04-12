@@ -59,4 +59,31 @@ extension NumberFormatter {
         f.numberStyle = .decimal
         return f
     }()
+    
+    /// Sugar functions
+    public func string(from int: Int) -> String {
+        string(from: NSNumber(value: int))!
+    }
+    
+    public func string(from double: Double) -> String {
+        string(from: NSNumber(value: double))!
+    }
+    
+    public func optionalString(from optionalInt: Int?) -> String? {
+        optionalInt.map { string(from: $0) }
+    }
+    
+    public func optionalString(from optionalDouble: Double?) -> String? {
+        optionalDouble.map { string(from: $0) }
+    }
+    
+    public func int(from optionalString: String?) -> Int? {
+        guard let s = optionalString else { return nil }
+        return number(from: s)?.intValue
+    }
+    
+    public func double(from optionalString: String?) -> Double? {
+        guard let s = optionalString else { return nil }
+        return number(from: s)?.doubleValue
+    }
 }

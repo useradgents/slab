@@ -25,6 +25,9 @@ extension DateFormatter {
     /// Common DateFormatter with long date and no time
     public static var longDate = DateFormatter(dateStyle: .long, timeStyle: .none)
     
+    /// Common DateFormatter with yyyyMMdd date and no time
+    public static var ymd = DateFormatter(dateFormat: "yyyyMMdd")
+    
     /// Common DateFormatter with no date and short time
     public static var shortTime = DateFormatter(dateStyle: .none, timeStyle: .short)
     
@@ -46,12 +49,31 @@ extension DateFormatter {
         .with(\.locale, Locale(identifier: "en_US_POSIX"))
         .with(\.timeZone, TimeZone(secondsFromGMT: 0))
     
+    /// Common DateFormatter with ISO8601 date+time format
+    public static var isoDateTimeFullZone = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ssXXXXX")
+        .with(\.calendar, Calendar(identifier: .iso8601))
+        .with(\.locale, Locale(identifier: "en_US_POSIX"))
+        .with(\.timeZone, TimeZone(secondsFromGMT: 0))
+    
     /// Common DateFormatter with ISO8601 date+time format with millisecond precision
     public static var isoDateTimeMilliseconds = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z")
         .with(\.calendar, Calendar(identifier: .iso8601))
         .with(\.locale, Locale(identifier: "en_US_POSIX"))
         .with(\.timeZone, TimeZone(secondsFromGMT: 0))
 }
+
+extension DateComponentsFormatter {
+    /// Initializes a DateComponentsFormatter with the given units style and allowed units
+    public convenience init(style: DateComponentsFormatter.UnitsStyle, allowedUnits: NSCalendar.Unit) {
+        self.init()
+        self.unitsStyle = style
+        self.allowedUnits = allowedUnits
+    }
+    
+    /// Common DateComponentsFormatter with abbreviated hours and minutes units.
+    public static var hm = DateComponentsFormatter(style: .abbreviated, allowedUnits: [.hour, .minute])
+}
+
 
 // Allow formatting dates with Swift 5 string interpolation:
 // print("Will start at \(startTime, using: .shortTime)")
