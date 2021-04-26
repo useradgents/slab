@@ -2,8 +2,8 @@ import Foundation
 import RNCryptor
 
 public struct EnvironmentManager {
-    public let allEnvironments: [Environment]
-    public let current: Environment
+    public let allEnvironments: [RuntimeEnvironment]
+    public let current: RuntimeEnvironment
     
     static let keyCurrent = "Slab.EnvironmentManager.currentName"
     static let keyLast = "Slab.EnvironmentManager.lastName"
@@ -14,11 +14,11 @@ public struct EnvironmentManager {
             Self.keyLast: defaultID
         ])
         
-        let all: [Environment]
+        let all: [RuntimeEnvironment]
         do {
             all = try FileManager.default.contentsOfDirectory(atPath: Bundle.main.bundlePath)
                 .filter({ $0.hasPrefix(prefix) && $0.hasSuffix(".json.aes") })
-                .compactMap({ Environment(filename: $0, prefix: prefix) })
+                .compactMap({ RuntimeEnvironment(filename: $0, prefix: prefix) })
                 .sorted(by: \.order)
         }
         catch {
@@ -82,7 +82,7 @@ public struct EnvironmentManager {
     }
 }
 
-public struct Environment: Equatable, Identifiable {
+public struct RuntimeEnvironment: Equatable, Identifiable {
     public let id: String
     public let displayName: String
     public let emoji: String
@@ -121,7 +121,7 @@ public struct Environment: Equatable, Identifiable {
         exit(0)
     }
     
-    public static func == (lhs: Environment, rhs: Environment) -> Bool {
+    public static func == (lhs: RuntimeEnvironment, rhs: RuntimeEnvironment) -> Bool {
         lhs.id == rhs.id
     }
 }
