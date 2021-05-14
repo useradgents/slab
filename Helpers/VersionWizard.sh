@@ -1,9 +1,10 @@
 #!/bin/bash
+
 ######################################################################################
 #
 # versionWizard.sh
 # Copyright © 2019-present USERADGENTS
-# Version 1.2 (2021-04-09)
+# Version 1.3 (2021-05-14)
 # Author: Cyrille Legrand <c@uad.io>
 #
 ######################################################################################
@@ -69,9 +70,13 @@
 #    curl "https://uad.io/versionWizard.php?id=${VW_APP_ID}&setPublicVersion=X.Y.Z&setBuildNumber=BBBB"
 #
 ######################################################################################
-
-
-
+#
+# Version History
+#
+#   1.2 - March 2021: Integrate into Slab
+#   1.3 - May 14, 2021: Add support for App Clips
+#
+######################################################################################
 
 
 # Make preprocessor definitions available to Bash
@@ -148,12 +153,21 @@ if [ -f "$DSYM_INFO_PLIST" ]; then
         /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString \"$PUBLIC\"" "$DSYM_INFO_PLIST"
 fi
 
-# Carry over to embedded app extensions
-find "${TARGET_BUILD_DIR}/${PLUGINS_FOLDER_PATH}" -maxdepth 1 -name "*.appex" 2>/dev/null | while read appex; do
+# Carry over to embedded app extensions (aka plugins) if they exist
+[ -d "${TARGET_BUILD_DIR}/${PLUGINS_FOLDER_PATH}" ] && find "${TARGET_BUILD_DIR}/${PLUGINS_FOLDER_PATH}" -maxdepth 1 -name "*.appex" 2>/dev/null | while read appex; do
     if [ -f "${appex}/Info.plist" ]; then
         /usr/libexec/PlistBuddy -c "Set :CFBundleVersion \"$BUILD\"" "${appex}/Info.plist"
         [ "${VW_PUBLIC_VERSION_MODE}" = "skip" ] ||
             /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString \"$PUBLIC\"" "${appex}/Info.plist"
+    fi
+done
+
+# Carry over to embedded App Clips if they exist
+[ -d "${TARGET_BUILD_DIR}/${EXECUTABLE_FOLDER_PATH}/AppClips" ] && find "${TARGET_BUILD_DIR}/${EXECUTABLE_FOLDER_PATH}/AppClips" -maxdepth 1 -name "*.app" 2>/dev/null | while read appclip; do
+    if [ -f "${appclip}/Info.plist" ]; then
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion \"$BUILD\"" "${appclip}/Info.plist"
+        [ "${VW_PUBLIC_VERSION_MODE}" = "skip" ] ||
+            /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString \"$PUBLIC\"" "${appclip}/Info.plist"
     fi
 done
 
