@@ -2,7 +2,7 @@
   "object": {
     "pins": [
       {
-        "package": "KeychainSwift",
+        "package": "keychain-swift",
         "repositoryURL": "https://github.com/evgenyneu/keychain-swift.git",
         "state": {
           "branch": "master",
@@ -11,7 +11,7 @@
         }
       },
       {
-        "package": "Reachability",
+        "package": "Reachability.swift",
         "repositoryURL": "https://github.com/ashleymills/Reachability.swift.git",
         "state": {
           "branch": "master",

@@ -14,4 +14,14 @@ extension Array {
         ret.append(newElement)
         return ret
     }
+    
+    /// Pops the first element of the array, provided it exists, and returns this element. Mutates the array.
+    public mutating func popFirst() -> Element? {
+        isEmpty ? nil : removeFirst()
+    }
+    
+    /// Pops the last element of the array, provided it exists, and returns this element. Mutates the array.
+    public mutating func popLast() -> Element? {
+        isEmpty ? nil : removeLast()
+    }
 }
