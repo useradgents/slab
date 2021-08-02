@@ -343,6 +343,17 @@ The cross `†` is done with alt+T on a US (QWERTY) or FR (AZERTY) keyboard. It 
 
 ## Property Wrappers
 
+## Localise.biz fetcher
+Shell script that fetches Localizable.strings and InfoPlist.strings from Localise.biz on every build.
+
+### Setup
+- Build settings accordingly to what's defined in Localise.biz.sh
+- Create a Run Script Build Phase (at the very end, after Copy Bundle Resources) named `Localise.biz`, with the following contents:
+
+```
+$(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/Localise.biz.sh
+```
+
 ## Version Wizard
 Shell script that synchronizes build versions and numbers across multi-scheme apps, as described in [Useradgents’ iOS Architecture Guide](about:).
 
