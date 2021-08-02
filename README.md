@@ -450,3 +450,31 @@ Other methods include `string(forKey:)`, `bool(forKey:)`, `value(forKey:)`.
 
 - To allow selecting another environment in Development schemes, iterate over `env.all` which lists all the available environments as an array of `Environment` structs. Equality to `env.current` can be tested to provide a checkmark for the currently-selected environment.
 - To make another environment active, call its `activate()` method. This will force-sync the UserDefaults and force-quit the app with a call to `exit()` — which are methods that will get you a rejection from Apple if you call them in production code (even though they are not private API).
+- To easily provide environment change in SwiftUI:
+
+```
+struct DebugMenu: View {
+    init(envManager: EnvironmentManager) {
+        self.environments = envManager.allEnvironments.sorted(by: \.order)
+        self.selectedEnvironment = envManager.current
+    }
+    
+    let environments: [RuntimeEnvironment]
+    @State var selectedEnvironment: RuntimeEnvironment
+    
+    var body: some View {
+        Form {
+            Section {
+                Picker("Environment", selection: $selectedEnvironment) {
+                    ForEach(environments, id: \.self) {
+                        Text("\($0.emoji) \($0.displayName)")
+                    }
+                }.onChange(of: selectedEnvironment) { environment in
+                    environment.activate()
+                }
+                Text("Changing environment will kill the app immediately. You will need to manually launch it again.")
+            }
+        }
+    }
+}
+```

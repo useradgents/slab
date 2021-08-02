@@ -1,7 +1,7 @@
 import Foundation
 import RNCryptor
 
-public struct EnvironmentManager {
+public class EnvironmentManager {
     public let allEnvironments: [RuntimeEnvironment]
     public let current: RuntimeEnvironment
     
@@ -81,6 +81,11 @@ public struct EnvironmentManager {
         return ptr
     }
 }
+
+
+@available(iOSApplicationExtension 13.0, iOS 13.0, *)
+extension EnvironmentManager: ObservableObject {}
+
 
 public struct RuntimeEnvironment: Equatable, Identifiable, Hashable {
     public let id: String
