@@ -82,7 +82,7 @@ public struct EnvironmentManager {
     }
 }
 
-public struct RuntimeEnvironment: Equatable, Identifiable {
+public struct RuntimeEnvironment: Equatable, Identifiable, Hashable {
     public let id: String
     public let displayName: String
     public let emoji: String
@@ -123,5 +123,9 @@ public struct RuntimeEnvironment: Equatable, Identifiable {
     
     public static func == (lhs: RuntimeEnvironment, rhs: RuntimeEnvironment) -> Bool {
         lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
