@@ -3,6 +3,13 @@
 #  ConfCryptor.sh
 #  Copyright © 2017-present userADgents. All rights reserved.
 
+# Don't run when compiling for Previews. This would invalidate the current
+# build and Previews would fail.
+[[ $(echo "$BUILD_ROOT" | grep "Previews" | wc -l) -eq 1 ]] && {
+     echo "Bailing out while compiling Previews"
+     exit 0
+}
+
 which jq 1>/dev/null || {
     brew update
     brew install jq
