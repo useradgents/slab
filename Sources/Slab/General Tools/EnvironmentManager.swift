@@ -70,6 +70,22 @@ public class EnvironmentManager {
         self.value(forKey: key) as? Bool ?? `default`
     }
     
+    public func int(forKey key: String) -> Int? {
+        self.value(forKey: key) as? Int
+    }
+    
+    public func int(forKey key: String, `default`: Int) -> Int {
+        self.value(forKey: key) as? Int ?? `default`
+    }
+    
+    public func double(forKey key: String) -> Double? {
+        self.value(forKey: key) as? Double
+    }
+    
+    public func double(forKey key: String, `default`: Double) -> Double {
+        self.value(forKey: key) as? Double ?? `default`
+    }
+    
     public func value(forKey key: String) -> Any? {
         var ptr: Any = current.data
         for piece in key.components(separatedBy: ".") {
