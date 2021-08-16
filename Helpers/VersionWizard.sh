@@ -180,7 +180,7 @@ done
 echo "✅ Build number synchronized to ${BUILD}, version ${PUBLIC}"
 
 # Create and push a git tag
-[ -z ${VW_NO_TAG+x} ] || {
+[ -z ${VW_NO_TAG+x} ] && {
     echo "Pushing tag…"
     git tag "v$PUBLIC-build$BUILD" 2>&1
     git push origin "v$PUBLIC-build$BUILD" 2>&1
