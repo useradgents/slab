@@ -64,7 +64,7 @@ fail() {
 
 # Make sure we have an API key
 [ -z ${LOCALISE_API_KEY+x} ] && fail "LOCALISE_API_KEY not set"
-[ -z ${LOCALISE_SHORT_NAME+x}] && fail "LOCALISE_SHORT_NAME not set"
+[ -z ${LOCALISE_SHORT_NAME+x} ] && fail "LOCALISE_SHORT_NAME not set"
 
 # Make sure we have a list of languages
 [ -z ${LOCALISE_LANGUAGES+x} ] && fail "LOCALISE_LANGUAGES not set"
@@ -85,12 +85,14 @@ for LANG in $LANGUAGES; do
     # Extract stuff for Localizable.strings
     [ -z ${LOCALISE_LOCALIZABLESTRINGS_PATH+x} ] || {
         cat /tmp/foo.strings | grep -v " \* Exported " | sed 's/%s/%@/' > /tmp/Localizable.strings
+        mkdir -p "${PROJECT_DIR}/${LOCALISE_LOCALIZABLESTRINGS_PATH}/${LANG}.lproj/"
         iconv -f UTF-8 -t UTF-16 /tmp/Localizable.strings > "${PROJECT_DIR}/${LOCALISE_LOCALIZABLESTRINGS_PATH}/${LANG}.lproj/Localizable.strings"
     }
     
     # Extract stuff for Infoplist.strings
     [ -z ${LOCALISE_INFOPLISTSTRINGS_PATH+x} ] || {
         cat /tmp/foo.strings | grep "^\"ios_infoplist_" | sed 's/%s/%@/' | sed "s/ios_infoplist_//" > /tmp/infoplist.strings
+        mkdir -p "${PROJECT_DIR}/${LOCALISE_INFOPLISTSTRINGS_PATH}/${LANG}.lproj/"
         iconv -f UTF-8 -t UTF-16 /tmp/infoplist.strings > "${PROJECT_DIR}/${LOCALISE_INFOPLISTSTRINGS_PATH}/${LANG}.lproj/InfoPlist.strings"
     }
 done
