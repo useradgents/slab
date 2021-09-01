@@ -32,6 +32,11 @@ extension Collection {
     public var isNotEmpty: Bool {
         !isEmpty
     }
+    
+    /// Turns an empty collection into a nil
+    public var nilIfEmpty: Self? {
+        isEmpty ? .none : .some(self)
+    }
 }
 
 
