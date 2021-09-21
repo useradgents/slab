@@ -19,6 +19,12 @@ extension DateFormatter {
     /// Common DateFormatter with short date and no time
     public static var shortDate = DateFormatter(dateStyle: .short, timeStyle: .none)
     
+    /// Common DateFormatter with medium date and no time
+    public static var mediumDate = DateFormatter(dateStyle: .medium, timeStyle: .none)
+    
+    /// Common DateFormatter with long date and no time
+    public static var longDate = DateFormatter(dateStyle: .long, timeStyle: .none)
+    
     /// Common DateFormatter with no date and short time
     public static var shortTime = DateFormatter(dateStyle: .none, timeStyle: .short)
     
