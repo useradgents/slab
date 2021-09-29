@@ -234,8 +234,10 @@ WIZARD="${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/versionWizard
 # Get the hash of HEAD
 COMMIT=$(git rev-parse --verify HEAD)
 
-# Get the branch name of HEAD
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
+# If we're building from Bitrise, we'll always be on an unnamed HEAD branch.
+# → Take branch name from BITRISE_GIT_BRANCH if set
+# Otherwise, ask git which branch we're on.
+BRANCH="${BITRISE_GIT_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}"
 
 echo "Building from branch $BRANCH, commit $COMMIT"
 
