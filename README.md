@@ -351,7 +351,7 @@ Shell script that fetches Localizable.strings and InfoPlist.strings from Localis
 - Create a Run Script Build Phase (at the very end, after Copy Bundle Resources) named `Localise.biz`, with the following contents:
 
 ```
-$(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/Localise.biz.sh
+"${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/Localise.biz.sh"
 ```
 
 ## Version Wizard
@@ -363,7 +363,7 @@ Shell script that synchronizes build versions and numbers across multi-scheme ap
 - Create a Run Script Build Phase (at the very end, after Copy Bundle Resources) named `Version Wizard`, with the following contents:
 
 ```
-$(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/VersionWizard.sh
+"${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/VersionWizard2.sh"
 ```
 - Tick the checkbox so that it runs "For install builds only"
 
@@ -404,7 +404,7 @@ To correctly setup your multi-scheme project, head over to [Useradgents’ iOS A
 - Add a "Run Script" build phase, name it "Encrypt Environments", and ensure it runs **before** "Copy Bundle Resources". Script contents :
 
 ```
-$(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/ConfCryptor.sh
+"${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/ConfCryptor.sh"
 ```
 
 - add the `Environments` directory you’ve just created to the script’s Input Files, eg.

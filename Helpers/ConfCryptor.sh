@@ -19,7 +19,7 @@ which jq 1>/dev/null || {
     }
 }
 
-CRYPTOR="$(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/ConfCryptor"
+CRYPTOR="${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/ConfCryptor"
 [[ -x "$CRYPTOR" ]] || {
     echo "❌ Cannot find ConfCryptor tool. Make sure the project is setup in accordance to the README.md of Slab"
     exit 1

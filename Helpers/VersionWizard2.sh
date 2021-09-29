@@ -178,7 +178,7 @@
 ###      export VW_KEY_P8="/tmp/bitrise_key.p8"
 ###  fi
 ###
-###  $(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/VersionWizard2.sh
+###  "${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/VersionWizard2.sh"
 #
 # Then, in Bitrise, you declare VW_KEY_ISSUER, VW_KEY_ID and VW_KEY_P8_CONTENTS as Secrets.
 # (Put the *contents* of the P8 in the secret, as there's no way to secret-ize whole files).
@@ -225,7 +225,7 @@ which jq >/dev/null || fail "jq is not installed"
 [ -f "/usr/libexec/PlistBuddy" ] || fail "PlistBuddy is not installed"
 
 # Find native versionWizard tool
-WIZARD="$(echo "$BUILD_ROOT" | sed 's%/Build/.*%%')/SourcePackages/checkouts/Slab/Helpers/versionWizard"
+WIZARD="${BUILD_DIR%Build/*}/SourcePackages/checkouts/Slab/Helpers/versionWizard"
 [[ -x "$WIZARD" ]] || fail "versionWizard native binary not found."
 
 
