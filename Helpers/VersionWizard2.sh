@@ -129,7 +129,7 @@
 # If you're migrating from v1.x of this script, you need to synchronize the last
 # build number.
 # Simply run this command once:
-# curl https://uad.io/versions.php?app-id=123456&commit=<lastHash>&force=<lastBuildNumber>
+# curl "https://uad.io/versions.php?app-id=123456&commit=<lastHash>&force=<lastBuildNumber>"
 #
 # --------------------
 #
@@ -237,11 +237,16 @@ COMMIT=$(git rev-parse --verify HEAD)
 # Get the branch name of HEAD
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
+echo "Building from branch $BRANCH, commit $COMMIT"
+
 # If branch name ends with what looks like a version number, use it as train
 if [[ "$BRANCH" =~ [0-9][0-9.]*$ ]]; then
-    TRAINOPT="--train \"$(echo "$BRANCH" | grep -o '[0-9][0-9.]*$')\""
+    TRAIN="$(echo "$BRANCH" | grep -o '[0-9][0-9.]*$')"
+    TRAINOPT="--train \"$TRAIN\""
+    echo "Will use train $TRAIN from git branch name."
 else
     TRAINOPT=""
+    echo "No suitable git branch name, will use the last public version from Apple."
 fi
 
 # Get the public version from Apple and build number from uad.io
