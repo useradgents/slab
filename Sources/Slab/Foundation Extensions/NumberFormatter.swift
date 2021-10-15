@@ -25,6 +25,13 @@ extension String.StringInterpolation {
         }
     }
     
+    /// Allow formatting Decimal values with Swift 5 string interpolation
+    public mutating func appendInterpolation(_ value: Decimal, using formater: NumberFormatter) {
+        if let result = formater.string(from: value as NSNumber) {
+            appendLiteral(result)
+        }
+    }
+    
     /// Allow formatting Int values with Swift 5 string interpolation
     public mutating func appendInterpolation(_ value: Int, using formater: NumberFormatter) {
         if let result = formater.string(from: NSNumber(value: value)) {
