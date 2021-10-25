@@ -25,3 +25,23 @@ extension Array {
         isEmpty ? nil : removeLast()
     }
 }
+
+extension Array where Element: Equatable {
+    @discardableResult
+    public mutating func appendIfNotContains(_ element: Element) -> Bool {
+        if !contains(element) {
+            append(element)
+            return true
+        }
+        return false
+    }
+    
+    @discardableResult
+    public mutating func removeElement(_ element: Element) -> Bool {
+        if let index = firstIndex(of: element) {
+            remove(at: index)
+            return true
+        }
+        return false
+    }
+}
