@@ -96,3 +96,10 @@ extension Collection where Element: Identifiable {
         first(where: { $0.id == id })
     }
 }
+
+extension Collection {
+    /// Access elements by index if exists else return nil but not crash
+    public subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
