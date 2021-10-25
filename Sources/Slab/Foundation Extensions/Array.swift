@@ -27,6 +27,8 @@ extension Array {
 }
 
 extension Array where Element: Equatable {
+    /// Add element at the end of Array if it is not already in it
+    /// Return boolean if appending succeed or not
     @discardableResult
     public mutating func appendIfNotContains(_ element: Element) -> Bool {
         if !contains(element) {
@@ -36,6 +38,8 @@ extension Array where Element: Equatable {
         return false
     }
     
+    /// Remove element in the Array if exists
+    /// Return boolean if removing succeed or not
     @discardableResult
     public mutating func removeElement(_ element: Element) -> Bool {
         if let index = firstIndex(of: element) {
