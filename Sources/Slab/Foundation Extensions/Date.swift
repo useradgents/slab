@@ -17,6 +17,11 @@ extension Date {
         progress(between: interval.lowerBound, and: interval.upperBound)
     }
     
+    /// Returns boolean if this date is the same day of date in parameter. Without looking hour
+    public func isSameDayThan(_ date: Date) -> Bool {
+        return midnight == date.midnight
+    }
+    
     /// Returns the day, month and year components of the Date
     public var dmy: DateComponents {
         Calendar.current.dateComponents([.day, .month, .year], from: self)
