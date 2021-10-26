@@ -63,6 +63,11 @@ extension Date {
     public static var yesterday: Date {
         Date().midnight >> (-1).day
     }
+    
+    /// Return how many seconds in a day
+    public static var secondsInDay: Int {
+        return 60 * 60 * 24
+    }
 }
 
 /// Adds a time interval to a date

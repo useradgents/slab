@@ -39,26 +39,6 @@ extension JSONEncoder: CodingEncoder {
     }
 }
 
-extension Encodable {
-    private func toData(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy,
-                        keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy) throws -> Data {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.keyEncodingStrategy = keyEncodingStrategy
-        let data = try encoder.encode(self)
-        return data
-    }
-    
-    /// Take Encodable object and give his dictionary
-    public func toJSONDict(
-        dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .formatted(.isoDateTimeMilliseconds),
-        keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys) throws -> [String: Any]? {
-        let data = try toData(dateEncodingStrategy: dateEncodingStrategy, keyEncodingStrategy: keyEncodingStrategy)
-        return try JSONSerialization.jsonObject(with: data) as? [String: Any]
-    }
-}
-
-
 /* Also applicable to MessagePack, should you include it: */
 
 //extension MessagePackDecoder: CodingDecoder {
