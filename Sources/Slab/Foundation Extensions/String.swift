@@ -83,6 +83,13 @@ extension Optional where Wrapped == String {
     public var forSort: String {
         self?.forSort ?? ""
     }
+    
+    public var isNilOrEmpty: Bool {
+        switch self {
+        case .none: return true
+        case .some(let s): return s.isEmpty
+        }
+    }
 }
 
 extension Collection where Element == String? {
