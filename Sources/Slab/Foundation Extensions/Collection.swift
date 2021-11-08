@@ -1,6 +1,8 @@
 import Foundation
 
 extension Collection {
+    /// Starts a new group every time the closure returns true.
+    /// Useful for splitting credit card numbers by groups of 4, for example.
     public func grouped(_ where: (Element) -> Bool) -> [[Element]] {
         guard !isEmpty else { return [] }
         var ret: [[Element]] = []

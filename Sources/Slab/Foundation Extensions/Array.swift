@@ -27,7 +27,7 @@ extension Array {
     
     /// Return an array of array of size elements.
     public func chunked(into size: Int) -> [[Element]] {
-        return stride(from: 0, to: count, by: size).map {
+        stride(from: 0, to: count, by: size).map {
             Array(self[$0 ..< Swift.min($0 + size, count)])
         }
     }
@@ -38,21 +38,17 @@ extension Array where Element: Equatable {
     /// Return boolean if appending succeed or not
     @discardableResult
     public mutating func appendIfNotContains(_ element: Element) -> Bool {
-        if !contains(element) {
-            append(element)
-            return true
-        }
-        return false
+        guard !contains(element) else { return false }
+        append(element)
+        return true
     }
     
     /// Remove element in the Array if exists
     /// Return boolean if removing succeed or not
     @discardableResult
     public mutating func removeElement(_ element: Element) -> Bool {
-        if let index = firstIndex(of: element) {
-            remove(at: index)
-            return true
-        }
-        return false
+        guard let index = firstIndex(of: element) else { return false }
+        remove(at: index)
+        return true
     }
 }
