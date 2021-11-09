@@ -67,7 +67,7 @@ extension DateComponents {
     }
     
     /// Returns the Date corresponding to these DateComponents, according the the current Calendar
-    public var date: Date { Calendar.current.date(from: self)! }
+    public var currentCalendarDate: Date { Calendar.current.date(from: self)! }
     
     /// Returns the current Date according to the current Calendar, minus these DateComponents
     ///
