@@ -25,3 +25,11 @@ extension ClosedRange: ExpressibleByIntegerLiteral where Bound == Int {
     public static var one: ClosedRange<Int> = 1 ... 1
     public static var oneOrMore: ClosedRange<Int> = 1 ... Int.max
 }
+
+extension Collection {
+    public func union<T>() -> ClosedRange<T>? where Element == ClosedRange<T> {
+        guard let min = map(\.lowerBound).min() else { return nil }
+        guard let max = map(\.upperBound).max() else { return nil }
+        return min ... max
+    }
+}

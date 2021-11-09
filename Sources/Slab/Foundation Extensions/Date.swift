@@ -44,6 +44,11 @@ extension Date {
         Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)!
     }
     
+    /// Returns a Date with hour and minute set to a HoursMinute instance, and seconds to zero, according to the current Calendar
+    public func at(_ time: HoursMinutes) -> Date {
+        Calendar.current.date(bySettingHour: time.hour, minute: time.minute, second: 0, of: self)!
+    }
+    
     /// Returns the timeInterval since midnight, according to the current Calendar
     public var timeIntervalSinceMidnight: TimeInterval {
         timeIntervalSince(midnight)
@@ -103,5 +108,15 @@ extension ClosedRange where Bound == Date {
     
     /// Returns a Bool indicating whether the Date range is entirely in the future
     public var isFuture: Bool { lowerBound.isFuture }
+    
+    /// Returns a Double representing the progress in a given range, clamped to 0...1
+    public var progress: Double {
+        let total = upperBound.timeIntervalSince(lowerBound)
+        guard total > 0 else { return 0 }
+        let now = Date()
+        if now < lowerBound { return 0 }
+        if now > upperBound { return 1 }
+        return now.timeIntervalSince(lowerBound) / total
+    }
 }
 

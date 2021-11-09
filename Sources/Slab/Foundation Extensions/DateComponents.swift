@@ -102,3 +102,28 @@ public func >> (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
 public func << (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
     lhs.and(rhs.negated)
 }
+
+/// A custom codable class representing an "hh:mm" time encoded as String
+public struct HoursMinutes: Codable {
+    public let hour: Int
+    public let minute: Int
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let string = try container.decode(String.self)
+        let pieces = string.components(separatedBy: ":")
+        guard
+            pieces.count == 2,
+            let h = Int(pieces[0]),
+            let m = Int(pieces[1])
+        else { throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expecting hh:mm format") }
+        
+        self.hour = h
+        self.minute = m
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(String(format: "%02d:%02d", hour, minute))
+    }
+}
