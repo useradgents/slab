@@ -38,4 +38,27 @@ extension URLSession {
         return (url, response, error)
     }
     
+    public func curlString(for request: URLRequest, multiline: Bool = false) -> String {
+        var ret: [String] = []
+        
+        switch request.httpMethod {
+            case "HEAD": ret.append("--head")
+            case .some(let method) where method != "GET": ret.append("-X \(method)")
+            default: break
+        }
+        
+        configuration.httpAdditionalHeaders?.forEach { ret.append("-H \"\($0.key): \($0.value)\"") }
+        request.allHTTPHeaderFields?.forEach { ret.append("-H \"\($0.key): \($0.value)\"") }
+        
+        request.httpBody.flatMap { String(data: $0, encoding: .utf8) }.map {
+            ret.append("-d '\($0)'")
+        }
+        
+        request.url.map {
+            ret.append($0.absoluteString)
+        }
+        
+        return "curl " + ret.joined(separator: multiline ? " \\\n" : " ")
+    }
+    
 }
