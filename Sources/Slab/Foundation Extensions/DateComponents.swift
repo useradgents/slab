@@ -92,3 +92,13 @@ extension DateComponents {
     /// Returns the day, month, year components for today
     public static var today: DateComponents { Date().dmy }
 }
+
+/// Adds two time components
+public func >> (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
+    lhs.and(rhs)
+}
+
+/// Subtracts time components
+public func << (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
+    lhs.and(rhs.negated)
+}
