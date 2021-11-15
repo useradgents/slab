@@ -33,3 +33,23 @@ extension Collection {
         return min ... max
     }
 }
+
+public enum RelationToRange {
+    case before
+    case inside
+    case after
+}
+
+extension Comparable {
+    public func position(relativeTo range: ClosedRange<Self>) -> RelationToRange {
+        if self < range.lowerBound { return .before }
+        if self > range.upperBound { return .after }
+        return .inside
+    }
+    
+    public func position(relativeTo range: Range<Self>) -> RelationToRange {
+        if self < range.lowerBound { return .before }
+        if self >= range.upperBound { return .after }
+        return .inside
+    }
+}
