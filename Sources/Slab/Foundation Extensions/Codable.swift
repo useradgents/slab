@@ -64,3 +64,27 @@ extension JSONEncoder: CodingEncoder {
 //        try data.write(to: url, options: [.atomic])
 //    }
 //}
+
+
+/// Allow Decodable arrays to skip failing elements
+@propertyWrapper
+public struct IgnoreFailure<Value: Decodable>: Decodable {
+    public var wrappedValue: [Value] = []
+    
+    private struct _None: Decodable {}
+    
+    public init(from decoder: Decoder) throws {
+        var container = try decoder.unkeyedContainer()
+        while !container.isAtEnd {
+            if let decoded = try? container.decode(Value.self) {
+                wrappedValue.append(decoded)
+            }
+            else {
+                // item is silently ignored.
+                _ = try? container.decode(_None.self)
+            }
+        }
+    }
+}
+
+public typealias ArrayIgnoringFailure<Value: Decodable> = IgnoreFailure<Value>
