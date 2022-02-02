@@ -39,27 +39,27 @@ extension DateFormatter {
     
     /// Common DateFormatter with ISO8601 date-only format and no timezone
     public static var isoDateAbsolute = DateFormatter(dateFormat: "yyyy-MM-dd")
-        .with(\.calendar, Calendar(identifier: .iso8601))
-        .with(\.locale, Locale(identifier: "en_US_POSIX"))
-        .with(\.timeZone, TimeZone(secondsFromGMT: 0))
+        .with(\DateFormatter.calendar, Calendar(identifier: .iso8601))
+        .with(\DateFormatter.locale, Locale(identifier: "en_US_POSIX"))
+        .with(\DateFormatter.timeZone, TimeZone(secondsFromGMT: 0))
     
     /// Common DateFormatter with ISO8601 date+time format
     public static var isoDateTime = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ssZ")
     
     /// Common DateFormatter with ISO8601 date+time format and no timezone
     public static var isoDateTimeAbsolute = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ssZ")
-        .with(\.calendar, Calendar(identifier: .iso8601))
-        .with(\.locale, Locale(identifier: "en_US_POSIX"))
-        .with(\.timeZone, TimeZone(secondsFromGMT: 0))
+        .with(\DateFormatter.calendar, Calendar(identifier: .iso8601))
+        .with(\DateFormatter.locale, Locale(identifier: "en_US_POSIX"))
+        .with(\DateFormatter.timeZone, TimeZone(secondsFromGMT: 0))
     
     /// Common DateFormatter with ISO8601 date+time format with millisecond precision
     public static var isoDateTimeMilliseconds = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z")
     
     /// Common DateFormatter with ISO8601 date+time format with millisecond precision and no timezone
     public static var isoDateTimeMillisecondsAbsolute = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z")
-        .with(\.calendar, Calendar(identifier: .iso8601))
-        .with(\.locale, Locale(identifier: "en_US_POSIX"))
-        .with(\.timeZone, TimeZone(secondsFromGMT: 0))
+        .with(\DateFormatter.calendar, Calendar(identifier: .iso8601))
+        .with(\DateFormatter.locale, Locale(identifier: "en_US_POSIX"))
+        .with(\DateFormatter.timeZone, TimeZone(secondsFromGMT: 0))
 }
 
 // Allow formatting dates with Swift 5 string interpolation:
