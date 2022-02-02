@@ -20,6 +20,15 @@ extension Array {
         isEmpty ? nil : removeFirst()
     }
     
+    /// Pops N leading elements of the array, provided they exist, and returns them. Mutates the array.
+    public mutating func popFirst(_ count: Int) -> [Element]? {
+        let range = startIndex ..< Swift.min(startIndex+count, endIndex)
+        if range.isEmpty { return nil }
+        let ret = Array(self[range])
+        self.removeSubrange(range)
+        return ret
+    }
+    
     /// Pops the last element of the array, provided it exists, and returns this element. Mutates the array.
     public mutating func popLast() -> Element? {
         isEmpty ? nil : removeLast()
