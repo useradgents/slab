@@ -3,7 +3,7 @@ import RNCryptor
 
 public class EnvironmentManager {
     public let allEnvironments: [RuntimeEnvironment]
-    public let current: RuntimeEnvironment
+    public private(set) var current: RuntimeEnvironment
     
     static let keyCurrent = "Slab.EnvironmentManager.currentName"
     static let keyLast = "Slab.EnvironmentManager.lastName"
@@ -47,6 +47,16 @@ public class EnvironmentManager {
         }
         
         LOG("Running on environment: \(current.emoji) \(current.displayName)", .start)
+    }
+    
+    @discardableResult
+    public func activateWithoutExiting(_ env: RuntimeEnvironment, then: () -> Void) -> Bool {
+        guard UserDefaults.standard.string(forKey: Self.keyCurrent) != env.id else { return false }
+        UserDefaults.standard.set(env.id, forKey: EnvironmentManager.keyCurrent)
+        CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication)
+        self.current = env
+        then()
+        return true
     }
     
     public enum EnvError: Error {
@@ -98,6 +108,59 @@ public class EnvironmentManager {
     }
 }
 
+#if canImport(UIKit)
+import UIKit
+
+extension UIColor {
+    /**
+     Init a UIColor from a string with a hexadecimal pattern
+     - parameter hex: This parameter should have an "#" prefix or not. It must be 3 or 6 characters (wihtout the "#" prefix)
+     */
+    convenience init(hex string: String) {
+        var hex = string.hasPrefix("#")
+            ? String(string.dropFirst())
+            : string
+        guard hex.count == 3 || hex.count == 6 else {
+            self.init(white: 0.0, alpha: 0.0)
+            return
+        }
+        
+        if hex.count == 3 {
+            for (index, char) in hex.enumerated() {
+                hex.insert(char, at: hex.index(hex.startIndex, offsetBy: index * 2))
+            }
+        }
+        
+        guard let intCode = Int(hex, radix: 16) else {
+            self.init(white: 0.0, alpha: 0.0)
+            return
+        }
+        
+        self.init(red: CGFloat((intCode >> 16) & 0xFF) / 255.0,
+                  green: CGFloat((intCode >> 8) & 0xFF) / 255.0,
+                  blue:  CGFloat((intCode) & 0xFF) / 255.0,
+                  alpha: 1.0)
+    }
+}
+
+extension EnvironmentManager {
+    public func uiColor(forKey key: String) -> UIColor {
+        guard let hex = self.value(forKey: key) as? String else { return UIColor.black }
+        return UIColor(hex: hex)
+    }
+}
+#endif
+
+/*
+ #if canImport(SwiftUI)
+ import SwiftUI
+ extension EnvironmentManager {
+ public func color(forKey key: String) -> Color {
+ // idem
+ }
+ }
+ #endif
+ */
 
 @available(iOSApplicationExtension 13.0, iOS 13.0, *)
 extension EnvironmentManager: ObservableObject {}
