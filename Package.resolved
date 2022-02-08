@@ -2,24 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "KeychainSwift",
-        "repositoryURL": "https://github.com/evgenyneu/keychain-swift.git",
-        "state": {
-          "branch": null,
-          "revision": "d108a1fa6189e661f91560548ef48651ed8d93b9",
-          "version": "20.0.0"
-        }
-      },
-      {
-        "package": "Reachability",
-        "repositoryURL": "https://github.com/ashleymills/Reachability.swift.git",
-        "state": {
-          "branch": null,
-          "revision": "c01bbdf2d633cf049ae1ed1a68a2020a8bda32e2",
-          "version": "5.1.0"
-        }
-      },
-      {
         "package": "RNCryptor",
         "repositoryURL": "https://github.com/RNCryptor/RNCryptor.git",
         "state": {

@@ -9,12 +9,10 @@ let package = Package(
         .library(name: "Slab", targets: ["Slab"])
     ],
     dependencies: [
-        .package(name: "RNCryptor", url: "https://github.com/RNCryptor/RNCryptor.git", from: "5.1.0"),
-        .package(name: "KeychainSwift", url: "https://github.com/evgenyneu/keychain-swift.git", from: "20.0.0"),
-        .package(name: "Reachability", url: "https://github.com/ashleymills/Reachability.swift.git", from: "5.1.0")
+        .package(name: "RNCryptor", url: "https://github.com/RNCryptor/RNCryptor.git", from: "5.1.0")
     ],
     targets: [
-        .target(name: "Slab", dependencies: ["RNCryptor", "KeychainSwift", "Reachability"]),
+        .target(name: "Slab", dependencies: ["RNCryptor"]),
         .testTarget(name: "SlabTests", dependencies: ["Slab"]),
     ],
     swiftLanguageVersions: [.v5]
