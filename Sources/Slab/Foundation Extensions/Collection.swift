@@ -1,5 +1,9 @@
 import Foundation
 
+infix operator ∈: ComparisonPrecedence
+public func ∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { rhs.contains(lhs) }
+
+
 extension Collection {
     /// Starts a new group every time the closure returns true.
     /// Useful for splitting credit card numbers by groups of 4, for example.
@@ -105,3 +109,18 @@ extension Collection {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+#if canImport(SwiftUI)
+import SwiftUI
+public extension Binding {
+    static func emptyIfNil<T: Collection & Emptiable>(_ bString: Binding<T?>) -> Binding<T> {
+        .init(
+            get: { bString.wrappedValue ?? T.empty },
+            set: { bString.wrappedValue = $0.nilIfEmpty }
+        )
+    }
+}
+#endif
+
+
+

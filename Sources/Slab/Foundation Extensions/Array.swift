@@ -34,11 +34,55 @@ extension Array {
         isEmpty ? nil : removeLast()
     }
     
-    /// Return an array of array of size elements.
+    /// Return an array of array of _size_ elements. Useful for grouping credit card numbers, for example.
     public func chunked(into size: Int) -> [[Element]] {
         stride(from: 0, to: count, by: size).map {
             Array(self[$0 ..< Swift.min($0 + size, count)])
         }
+    }
+    
+    @inlinable public func noneSatisfy(_ predicate: (Element) throws -> Bool) rethrows -> Bool {
+        for e in self where try predicate(e) { return false }
+        return true
+    }
+    
+    @inlinable public func oneSatisfies(_ predicate: (Element) throws -> Bool) rethrows -> Bool {
+        for e in self where try predicate(e) { return true }
+        return false
+    }
+    
+    @inlinable public func reject(_ isExcluded: (Element) throws -> Bool) rethrows -> [Element] {
+        try filter { !(try isExcluded($0)) }
+    }
+    
+    @inlinable public func filter<T: Equatable>(_ keyPath: KeyPath<Element, T>, equals value: T) -> [Element] {
+        filter { $0[keyPath: keyPath] == value }
+    }
+    
+    @inlinable public func filter<T: Equatable>(_ keyPath: KeyPath<Element, T?>, equals value: T) -> [Element] {
+        filter { $0[keyPath: keyPath] == .some(value) }
+    }
+    
+    @inlinable public func filter<T: Equatable>(_ keyPath: KeyPath<Element, T>, in values: [T]) -> [Element] {
+        filter { values.contains($0[keyPath: keyPath]) }
+    }
+    
+    @inlinable public func reject<T: Equatable>(_ keyPath: KeyPath<Element, T>, equals value: T) -> [Element] {
+        filter { $0[keyPath: keyPath] != value }
+    }
+    
+    public func withoutNils<T>() -> [T] where Element == T? {
+        compactMap { $0 }
+    }
+    
+    @inlinable public func sorted<T: Comparable>(by keyPath: KeyPath<Element, T?>, defaultIfNil: T) -> [Element] {
+        sorted(by: { ($0[keyPath: keyPath] ?? defaultIfNil) < ($1[keyPath: keyPath] ?? defaultIfNil) })
+    }
+}
+
+extension Array where Element: Hashable {
+    @inlinable public func uniq() -> [Element] {
+        Array(Set(self))
     }
 }
 

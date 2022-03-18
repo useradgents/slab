@@ -74,6 +74,16 @@ extension Date {
         Date().midnight >> (-1).day
     }
     
+    /// Returns the number of days between this date and now. Use on past dates.
+    public var daysAgo: Int {
+        Calendar.current.dateComponents([.day], from: self, to: Date()).day!
+    }
+    
+    /// Returns the number of days between now and this date. Use on future dates.
+    public var daysFromNow: Int {
+        Calendar.current.dateComponents([.day], from: Date(), to: self).day!
+    }
+    
     /// Constant: number of seconds in a day
     /// WARNING: this is not always the case. Use with caution.
     public static let secondsInDay: Int = 86400

@@ -1,6 +1,12 @@
 import Foundation
 import CoreGraphics.CGGeometry
 
+public extension Numeric {
+    var nilIfZero: Self? {
+        self == .zero ? .none : .some(self)
+    }
+}
+
 /*
  
  Fall In :
