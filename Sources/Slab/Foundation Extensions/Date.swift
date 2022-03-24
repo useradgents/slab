@@ -39,6 +39,9 @@ extension Date {
     /// Returns a Bool indicating whether the Date is tomorrow, according to the current Calendar
     public var isTomorrow: Bool { midnight == Date.tomorrow.midnight }
     
+    /// Returns a Bool indicating whether the Date is tomorrow, according to the current Calendar
+    public var isAfterTomorrow: Bool { midnight == Date.afterTomorrow.midnight }
+
     /// Returns a Date with hour, minute and second components set to 0, according to the current Calendar
     public var midnight: Date {
         Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)!
@@ -67,6 +70,11 @@ extension Date {
     /// Returns a Date set to the beginning of tomorrow, according to the current Calendar
     public static var tomorrow: Date {
         Date().midnight >> 1.day
+    }
+    
+    /// Returns a Date set to the beginning of after tomorrow, according to the current Calendar
+    public static var afterTomorrow: Date {
+        Date().midnight >> 2.day
     }
     
     /// Returns a Date set to the beginning of yesterday, according to the current Calendar
