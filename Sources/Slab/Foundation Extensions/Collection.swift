@@ -1,7 +1,12 @@
 import Foundation
 
 infix operator ∈: ComparisonPrecedence
+infix operator !∈: ComparisonPrecedence
+infix operator ∉: ComparisonPrecedence
+
 public func ∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { rhs.contains(lhs) }
+public func !∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
+public func ∉ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
 
 
 extension Collection {
