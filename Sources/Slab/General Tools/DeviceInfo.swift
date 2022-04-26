@@ -1,6 +1,5 @@
 #if canImport(UIKit)
 import UIKit
-import CoreTelephony
 import Foundation
 
 /// Convenient ways to get device information
@@ -11,17 +10,22 @@ public enum DeviceInfo {
         case iPhone = "iphone"
         case iPad = "ipad"
         case watch = "watch"
+        case tv = "tv"
         case simulator = "x86_64"
         case notSupported = ""
     }
 
     /// Get model name according to enum
     public static var model: Model {
+        #if os(tvOS)
+        return Model.tv
+        #else
         switch UIDevice.current.userInterfaceIdiom {
             case .pad: return Model.iPad
             case .phone: return Model.iPhone
             default: return Model.notSupported
         }
+        #endif
     }
 
     /// whether device is iPad or not
@@ -82,26 +86,41 @@ public enum DeviceInfo {
         return used
     }
 
-    ///whether screen is in landscape mode or not
-    public static var isLandscape: Bool {
-        [UIDeviceOrientation.landscapeLeft, .landscapeRight].contains(UIDevice.current.orientation)
-    }
-
-    ///get current battery level
-    public static var batteryLevel: Float {
-        return UIDevice.current.batteryLevel
-    }
-
     /// is low power mode (mode launched in iOS 9)
     public static var lowPowerModeEnabled: Bool {
         return ProcessInfo.processInfo.isLowPowerModeEnabled
     }
 
+    public static var deviceName: String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        return identifier
+    }
+}
+
+#if os(iOS)
+import CoreTelephony
+public extension DeviceInfo {
+    ///whether screen is in landscape mode or not
+    public static var isLandscape: Bool {
+        [UIDeviceOrientation.landscapeLeft, .landscapeRight].contains(UIDevice.current.orientation)
+    }
+    
+    ///get current battery level
+    public static var batteryLevel: Float {
+        return UIDevice.current.batteryLevel
+    }
+    
     /// name of user network operator carrier
     public static var carrierName: String? {
         return CTTelephonyNetworkInfo().subscriberCellularProvider?.carrierName
     }
-
+    
     /// which wwan (cellular) technology user is connected on
     public static var radioTechnology: String? {
         if #available(iOS 14.1, *) {
@@ -142,17 +161,8 @@ public enum DeviceInfo {
         }
         return nil
     }
-
-    public static var deviceName: String {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-        return identifier
-    }
 }
+#endif
+
 
 #endif
