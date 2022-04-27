@@ -51,6 +51,18 @@ public func ∉ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
     { $0[keyPath: lhs] >= rhs }
 }
 
+@inlinable public func && <T> (lhs: @escaping (T) -> Bool, rhs: @escaping (T) -> Bool) -> (T) -> Bool {
+    { lhs($0) && rhs($0) }
+}
+
+@inlinable public func || <T> (lhs: @escaping (T) -> Bool, rhs: @escaping (T) -> Bool) -> (T) -> Bool {
+    { lhs($0) || rhs($0) }
+}
+
+@inlinable public prefix func ! <T> (rhs: @escaping (T) -> Bool) -> (T) -> Bool {
+    { !rhs($0) }
+}
+
 
 extension Collection {
     /// Starts a new group every time the closure returns true.
