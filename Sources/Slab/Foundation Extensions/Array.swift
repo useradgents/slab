@@ -51,6 +51,14 @@ extension Array {
         return false
     }
     
+    @inlinable public func first<T: Equatable>(where keyPath: KeyPath<Element, T>, equals value: T) -> Element? {
+        first(where: { $0[keyPath: keyPath] == value })
+    }
+    
+    @inlinable public func first<T: Equatable>(where keyPath: KeyPath<Element, T>, in values: [T]) -> Element? {
+        first(where: { values.contains($0[keyPath: keyPath]) })
+    }
+    
     @inlinable public func reject(_ isExcluded: (Element) throws -> Bool) rethrows -> [Element] {
         try filter { !(try isExcluded($0)) }
     }
