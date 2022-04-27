@@ -9,6 +9,49 @@ public func !∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
 public func ∉ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
 
 
+// Sugar operators for first, filter, …
+// instead of
+//     let foo = array.first(where: { $0.bar == baz }
+// just write
+//     let foo = array.first(where: \.bar == baz)
+//
+@inlinable public func == <T, V: Equatable> (lhs: KeyPath<T, V>, rhs: V) -> (T) -> Bool {
+    { $0[keyPath: lhs] == rhs }
+}
+
+@inlinable public func != <T, V: Equatable> (lhs: KeyPath<T, V>, rhs: V) -> (T) -> Bool {
+    { $0[keyPath: lhs] != rhs }
+}
+
+@inlinable public func ∈ <T, V: Equatable> (lhs: KeyPath<T, V>, rhs: [V]) -> (T) -> Bool {
+    { rhs.contains($0[keyPath: lhs]) }
+}
+
+@inlinable public func !∈ <T, V: Equatable> (lhs: KeyPath<T, V>, rhs: [V]) -> (T) -> Bool {
+    { !rhs.contains($0[keyPath: lhs]) }
+}
+
+@inlinable public func ∉ <T, V: Equatable> (lhs: KeyPath<T, V>, rhs: [V]) -> (T) -> Bool {
+    { !rhs.contains($0[keyPath: lhs]) }
+}
+
+@inlinable public func < <T, V: Comparable> (lhs: KeyPath<T, V>, rhs: V) -> (T) -> Bool {
+    { $0[keyPath: lhs] < rhs }
+}
+
+@inlinable public func > <T, V: Comparable> (lhs: KeyPath<T, V>, rhs: V) -> (T) -> Bool {
+    { $0[keyPath: lhs] > rhs }
+}
+
+@inlinable public func <= <T, V: Comparable> (lhs: KeyPath<T, V>, rhs: V) -> (T) -> Bool {
+    { $0[keyPath: lhs] <= rhs }
+}
+
+@inlinable public func >= <T, V: Comparable> (lhs: KeyPath<T, V>, rhs: V) -> (T) -> Bool {
+    { $0[keyPath: lhs] >= rhs }
+}
+
+
 extension Collection {
     /// Starts a new group every time the closure returns true.
     /// Useful for splitting credit card numbers by groups of 4, for example.
