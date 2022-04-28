@@ -9,3 +9,42 @@ extension Sequence {
         }
     }
 }
+
+public prefix operator ↑
+public prefix func ↑ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> ComparisonResult {{
+    let a = $0[keyPath: kp]
+    let b = $1[keyPath: kp]
+    if a == b { return .orderedSame }
+    else if a < b { return .orderedAscending }
+    else { return .orderedDescending }
+}}
+
+public prefix operator ↓
+public prefix func ↓ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> ComparisonResult {{
+    let a = $0[keyPath: kp]
+    let b = $1[keyPath: kp]
+    if a == b { return .orderedSame }
+    else if a > b { return .orderedAscending }
+    else { return .orderedDescending }
+}}
+
+extension Sequence {
+    /// Returns the sequence sorted by one or more comparators, in order of precedence.
+    ///
+    /// Use the `↑` and `↓` prefix operators on `KeyPath`s that are `Comparable` to make it even shorter and enhance readability:
+    ///
+    ///     let allFlowers = flowers.sorted(by: ↑\.name, ↓\.color)
+    @inlinable public func sorted(by comparators: (Element, Element) -> ComparisonResult...) -> [Element] {
+        sorted(by: { a, b -> Bool in
+            for (i, comparator) in comparators.enumerated() {
+                switch comparator(a, b) {
+                    case .orderedAscending: return true
+                    case .orderedDescending: return false
+                    case .orderedSame where i == comparators.count - 1: return true
+                    default: continue
+                }
+            }
+            return true
+        })
+    }
+}
