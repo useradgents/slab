@@ -5,7 +5,7 @@ extension CGSize: CustomStringConvertible {
 }
 
 infix operator × : RangeFormationPrecedence
-public func × (lhs: CGFloat, rhs: CGFloat) -> CGSize {
+@inlinable public func × (lhs: CGFloat, rhs: CGFloat) -> CGSize {
     CGSize(width: lhs, height: rhs)
 }
 
@@ -14,15 +14,15 @@ public extension CGSize {
         self = CGSize(width: dest.x - origin.x, height: dest.y - origin.y)
     }
     
-    func makeRect(origin: CGPoint = .zero) -> CGRect {
+    @inlinable func makeRect(origin: CGPoint = .zero) -> CGRect {
         CGRect(origin: origin, size: self)
     }
     
-    func centeredIn(_ outerRect: CGRect) -> CGRect {
+    @inlinable func centeredIn(_ outerRect: CGRect) -> CGRect {
         CGRect(x: outerRect.midX - width / 2, y: outerRect.midY - height / 2, width: width, height: height)
     }
     
-    func scaled(_ factor: CGFloat) -> CGSize {
+    @inlinable func scaled(_ factor: CGFloat) -> CGSize {
         CGSize(width: width * factor, height: height * factor)
     }
     
@@ -30,11 +30,11 @@ public extension CGSize {
     var heightComponent: CGSize { CGSize(width: 0, height: height) }
 }
 
-public func + (lhs: CGSize, rhs: CGSize) -> CGSize {
+@inlinable public func + (lhs: CGSize, rhs: CGSize) -> CGSize {
     CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
 }
 
-public func - (lhs: CGSize, rhs: CGSize) -> CGSize {
+@inlinable public func - (lhs: CGSize, rhs: CGSize) -> CGSize {
     CGSize(width: lhs.width - rhs.width, height: lhs.height - rhs.height)
 }
 

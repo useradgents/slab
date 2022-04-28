@@ -1,11 +1,11 @@
 import Foundation
 
 extension Bundle {
-    public var buildNumber: String? {
+    @inlinable public var buildNumber: String? {
         infoDictionary?["CFBundleVersion"] as? String
     }
     
-    public var versionString: String? {
+    @inlinable public var versionString: String? {
         infoDictionary?["CFBundleShortVersionString"] as? String
     }
 }

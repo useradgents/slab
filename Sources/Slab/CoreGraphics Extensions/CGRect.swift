@@ -11,11 +11,11 @@ public extension CGRect {
     var south: CGPoint     { CGPoint(x: midX, y: maxY) }
     var southEast: CGPoint { CGPoint(x: maxX, y: maxY) }
     
-    func insetBy(t: CGFloat = 0, l: CGFloat = 0, r: CGFloat = 0, b: CGFloat = 0) -> CGRect {
+    @inlinable func insetBy(t: CGFloat = 0, l: CGFloat = 0, r: CGFloat = 0, b: CGFloat = 0) -> CGRect {
         CGRect(x: minX + l, y: minY + t, width: width - l - r, height: height - t - b)
     }
     
-    func scaled(by scale: CGFloat) -> CGRect {
+    @inlinable func scaled(by scale: CGFloat) -> CGRect {
         CGRect(x: minX * scale, y: minY * scale, width: width * scale, height: height * scale)
     }
     
@@ -63,7 +63,7 @@ public extension CGRect {
     }
 }
 
-public func * (rect: CGRect, scale: CGFloat) -> CGRect {
+@inlinable public func * (rect: CGRect, scale: CGFloat) -> CGRect {
     CGRect(x: rect.minX * scale, y: rect.minY * scale, width: rect.width * scale, height: rect.height * scale)
 }
 
@@ -77,7 +77,7 @@ public extension Collection where Element == CGRect {
 import SwiftUI
 public extension CGRect {
     @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-    func inset(by ei: EdgeInsets) -> CGRect {
+    @inlinable func inset(by ei: EdgeInsets) -> CGRect {
         CGRect(
             x: origin.x + ei.leading,
             y: origin.y + ei.top,
@@ -91,7 +91,7 @@ public extension CGRect {
 #if canImport(UIKit)
 import UIKit
 public extension CGRect {
-    func insetBy(_ insets: UIEdgeInsets) -> CGRect {
+    @inlinable func insetBy(_ insets: UIEdgeInsets) -> CGRect {
         CGRect(x: minX + insets.left, y: minY + insets.top, width: width - insets.left - insets.right, height: height - insets.top - insets.bottom)
     }
     

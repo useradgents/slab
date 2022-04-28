@@ -2,7 +2,7 @@ import Foundation
 import CoreGraphics.CGGeometry
 
 public extension Numeric {
-    var nilIfZero: Self? {
+    @inlinable var nilIfZero: Self? {
         self == .zero ? .none : .some(self)
     }
 }
@@ -65,16 +65,16 @@ public extension FloatingPoint {
 }
 
 /// Ease a CGFloat in the range [0...1] using a sin wave
-public func ease(_ x: CGFloat) -> CGFloat {
+@inlinable public func ease(_ x: CGFloat) -> CGFloat {
     0.5 + 0.5 * sin(CGFloat.pi * (max(0, min(x, 1)) - 0.5))
 }
 
 /// Ease a Float in the range [0...1] using a sin wave
-public func ease(_ x: Float) -> Float {
+@inlinable public func ease(_ x: Float) -> Float {
     0.5 + 0.5 * sin(Float.pi * (max(0, min(x, 1)) - 0.5))
 }
 
 /// Ease a Double in the range [0...1] using a sin wave
-public func ease(_ x: Double) -> Double {
+@inlinable public func ease(_ x: Double) -> Double {
     0.5 + 0.5 * sin(Double.pi * (max(0, min(x, 1)) - 0.5))
 }

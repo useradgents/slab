@@ -4,12 +4,12 @@ infix operator .... : RangeFormationPrecedence
 infix operator ...< : RangeFormationPrecedence
 
 /// Creates a closed range with values that may not be in ascending order
-public func .... <T: Comparable>(lhs: T, rhs: T) -> ClosedRange<T> {
+@inlinable public func .... <T: Comparable>(lhs: T, rhs: T) -> ClosedRange<T> {
     min(lhs, rhs) ... max(lhs, rhs)
 }
 
 /// Creates a half-open range with values that may not be in ascending order
-public func ...< <T: Comparable>(lhs: T, rhs: T) -> Range<T> {
+@inlinable public func ...< <T: Comparable>(lhs: T, rhs: T) -> Range<T> {
     min(lhs, rhs) ..< max(lhs, rhs)
 }
 
@@ -41,13 +41,13 @@ public enum RelationToRange {
 }
 
 extension Comparable {
-    public func position(relativeTo range: ClosedRange<Self>) -> RelationToRange {
+    @inlinable public func position(relativeTo range: ClosedRange<Self>) -> RelationToRange {
         if self < range.lowerBound { return .before }
         if self > range.upperBound { return .after }
         return .inside
     }
     
-    public func position(relativeTo range: Range<Self>) -> RelationToRange {
+    @inlinable public func position(relativeTo range: Range<Self>) -> RelationToRange {
         if self < range.lowerBound { return .before }
         if self >= range.upperBound { return .after }
         return .inside

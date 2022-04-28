@@ -10,8 +10,8 @@ extension Sequence {
     }
 }
 
-public prefix operator ↑
-public prefix func ↑ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> ComparisonResult {{
+prefix operator ↑
+@inlinable public prefix func ↑ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> ComparisonResult {{
     let a = $0[keyPath: kp]
     let b = $1[keyPath: kp]
     if a == b { return .orderedSame }
@@ -19,8 +19,8 @@ public prefix func ↑ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> Compa
     else { return .orderedDescending }
 }}
 
-public prefix operator ↓
-public prefix func ↓ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> ComparisonResult {{
+prefix operator ↓
+@inlinable public prefix func ↓ <T, V: Comparable> (kp: KeyPath<T, V>) -> (T, T) -> ComparisonResult {{
     let a = $0[keyPath: kp]
     let b = $1[keyPath: kp]
     if a == b { return .orderedSame }
@@ -36,11 +36,12 @@ extension Sequence {
     ///     let allFlowers = flowers.sorted(by: ↑\.name, ↓\.color)
     @inlinable public func sorted(by comparators: (Element, Element) -> ComparisonResult...) -> [Element] {
         sorted(by: { a, b -> Bool in
-            for (i, comparator) in comparators.enumerated() {
+            var comparators = comparators
+            while let comparator = comparators.popFirst() {
                 switch comparator(a, b) {
                     case .orderedAscending: return true
                     case .orderedDescending: return false
-                    case .orderedSame where i == comparators.count - 1: return true
+                    case .orderedSame where comparators.isEmpty: return true
                     default: continue
                 }
             }

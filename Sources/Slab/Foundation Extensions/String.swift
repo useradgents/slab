@@ -9,39 +9,39 @@ import CommonCrypto
 // Looks like a T, reads like Translated
 // Double-cross ‡ is done as shift+alt+7 on a US (QWERTY), or alt+Q on a FR (AZERTY) keyboard.
 postfix operator †
-public postfix func † (left: String) -> String {
+@inlinable public postfix func † (left: String) -> String {
     NSLocalizedString(left, comment: "?⃤ " + left + " ?⃤")
 }
 
 postfix operator ‡
-public postfix func ‡ (left: String) -> String {
+@inlinable public postfix func ‡ (left: String) -> String {
     NSLocalizedString(left, comment: "?⃤ " + left + " ?⃤").localizedUppercase
 }
 
 
 extension String {
     /// Tests if the string matches a regular expression
-    public func matches(_ regex: String) -> Bool {
+    @inlinable public func matches(_ regex: String) -> Bool {
         range(of: regex, options: [.regularExpression]) != nil
     }
     
     /// Returns a version of the string with diacritics removed (eg: "Älphàbêt" becomes "Alphabet").
-    public var withoutDiacritics: String {
+    @inlinable public var withoutDiacritics: String {
         folding(options: [.diacriticInsensitive], locale: .current)
     }
     
     /// Returns the initials of the string, by keeping the first character of each word.
-    public var initials: String {
+    @inlinable public var initials: String {
         components(separatedBy: .whitespacesAndNewlines).compactMap { String($0.first ?? Character("")) }.joined()
     }
     
     /// Returns a sort-friendly variant of the string (all lowercase, without diacritics).
-    public var forSort: String {
+    @inlinable public var forSort: String {
         localizedLowercase.withoutDiacritics
     }
     
     /// Returns a sort-friendly variant of the string (all uppercase, without diacritics, keeping only alphanumerics)
-    public var cleanedUp: String {
+    @inlinable public var cleanedUp: String {
         String(self
                 .folding(options: .diacriticInsensitive, locale: nil)
                 .uppercased()
@@ -101,13 +101,13 @@ extension String {
 }
 
 extension Optional where Wrapped == String {
-    public var forSort: String {
+    @inlinable public var forSort: String {
         self?.forSort ?? ""
     }
 }
 
 extension Collection where Element == String? {
-    public func compactJoined(separator: String = "\n") -> String? {
+    @inlinable public func compactJoined(separator: String = "\n") -> String? {
         let mapped = compactMap { $0 }
         return mapped.isEmpty ? nil : mapped.joined(separator: separator)
     }

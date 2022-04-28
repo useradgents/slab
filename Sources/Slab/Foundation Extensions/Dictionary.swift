@@ -23,7 +23,7 @@ extension Dictionary.Values {
 }
 
 extension Dictionary {
-    public subscript(opt key: Key?) -> Value? {
+    @inlinable public subscript(opt key: Key?) -> Value? {
         key.flatMap { self[$0] }
     }
 }

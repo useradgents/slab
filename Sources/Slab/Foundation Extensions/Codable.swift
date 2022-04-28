@@ -19,7 +19,7 @@ extension JSONDecoder: CodingDecoder {
     }()
     
     /// Decodes an instance of the indicated type from data at the given URL
-    public func decode<T>(_ type: T.Type, at url: URL) throws -> T where T : Decodable {
+    @inlinable public func decode<T>(_ type: T.Type, at url: URL) throws -> T where T : Decodable {
         let data = try Data(contentsOf: url)
         return try decode(T.self, from: data)
     }
@@ -33,7 +33,7 @@ extension JSONEncoder: CodingEncoder {
     }()
     
     /// Encodes an instance of the indicated type and writes it to the given URL
-    public func encode<T>(_ value: T, to url: URL) throws where T: Encodable {
+    @inlinable public func encode<T>(_ value: T, to url: URL) throws where T: Encodable {
         let data = try encode(value)
         try data.write(to: url, options: [.atomic])
     }

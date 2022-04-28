@@ -1,13 +1,13 @@
 import Foundation
 
 public extension Optional where Wrapped: Numeric {
-    var zeroIfNil: Wrapped {
+    @inlinable var zeroIfNil: Wrapped {
         self ?? .zero
     }
 }
 
 public extension Optional where Wrapped: Emptiable {
-    var emptyIfNil: Wrapped {
+    @inlinable var emptyIfNil: Wrapped {
         self ?? .empty
     }
 }

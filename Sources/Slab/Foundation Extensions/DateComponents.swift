@@ -12,21 +12,21 @@ import Foundation
  */
 
 extension Int {
-    public var seconds: DateComponents { DateComponents(second: self) }
-    public var minutes: DateComponents { DateComponents(minute: self) }
-    public var hours:   DateComponents { DateComponents(hour: self) }
-    public var days:    DateComponents { DateComponents(day: self) }
-    public var weeks:   DateComponents { DateComponents(day: 7*self) }
-    public var months:  DateComponents { DateComponents(month : self) }
-    public var years:   DateComponents { DateComponents(year: self) }
+    @inlinable public var seconds: DateComponents { DateComponents(second: self) }
+    @inlinable public var minutes: DateComponents { DateComponents(minute: self) }
+    @inlinable public var hours:   DateComponents { DateComponents(hour: self) }
+    @inlinable public var days:    DateComponents { DateComponents(day: self) }
+    @inlinable public var weeks:   DateComponents { DateComponents(day: 7*self) }
+    @inlinable public var months:  DateComponents { DateComponents(month : self) }
+    @inlinable public var years:   DateComponents { DateComponents(year: self) }
     
-    public var second:  DateComponents { DateComponents(second: self) }
-    public var minute:  DateComponents { DateComponents(minute: self) }
-    public var hour:    DateComponents { DateComponents(hour: self) }
-    public var day:     DateComponents { DateComponents(day: self) }
-    public var week:    DateComponents { DateComponents(day: 7*self) }
-    public var month:   DateComponents { DateComponents(month : self) }
-    public var year:    DateComponents { DateComponents(year: self) }
+    @inlinable public var second:  DateComponents { DateComponents(second: self) }
+    @inlinable public var minute:  DateComponents { DateComponents(minute: self) }
+    @inlinable public var hour:    DateComponents { DateComponents(hour: self) }
+    @inlinable public var day:     DateComponents { DateComponents(day: self) }
+    @inlinable public var week:    DateComponents { DateComponents(day: 7*self) }
+    @inlinable public var month:   DateComponents { DateComponents(month : self) }
+    @inlinable public var year:    DateComponents { DateComponents(year: self) }
 }
 
 extension DateComponents {
@@ -67,7 +67,7 @@ extension DateComponents {
     }
     
     /// Returns the Date corresponding to these DateComponents, according the the current Calendar
-    public var currentCalendarDate: Date { Calendar.current.date(from: self)! }
+    @inlinable public var currentCalendarDate: Date { Calendar.current.date(from: self)! }
     
     /// Returns the current Date according to the current Calendar, minus these DateComponents
     ///
@@ -77,7 +77,7 @@ extension DateComponents {
     /// // Alternative way to write this:
     /// let threeHoursAgo = 3.hours.ago
     /// ```
-    public var ago: Date { Calendar.current.date(byAdding: negated, to: Date())! }
+    @inlinable public var ago: Date { Calendar.current.date(byAdding: negated, to: Date())! }
     
     /// Returns the current Date according to the current Calendar, adding these DateComponents
     ///
@@ -87,19 +87,19 @@ extension DateComponents {
     /// // Alternative way to write this:
     /// let nextYear = 1.year.fromNow
     /// ```
-    public var fromNow: Date { Calendar.current.date(byAdding: self, to: Date())! }
+    @inlinable public var fromNow: Date { Calendar.current.date(byAdding: self, to: Date())! }
     
     /// Returns the day, month, year components for today
-    public static var today: DateComponents { Date().dmy }
+    @inlinable public static var today: DateComponents { Date().dmy }
 }
 
 /// Adds two time components
-public func >> (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
+@inlinable public func >> (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
     lhs.and(rhs)
 }
 
 /// Subtracts time components
-public func << (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
+@inlinable public func << (lhs: DateComponents, rhs: DateComponents) -> DateComponents {
     lhs.and(rhs.negated)
 }
 

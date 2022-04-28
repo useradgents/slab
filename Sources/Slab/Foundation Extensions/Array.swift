@@ -35,7 +35,7 @@ extension Array {
     }
     
     /// Return an array of array of _size_ elements. Useful for grouping credit card numbers, for example.
-    public func chunked(into size: Int) -> [[Element]] {
+    @inlinable public func chunked(into size: Int) -> [[Element]] {
         stride(from: 0, to: count, by: size).map {
             Array(self[$0 ..< Swift.min($0 + size, count)])
         }
@@ -79,7 +79,7 @@ extension Array {
         filter { $0[keyPath: keyPath] != value }
     }
     
-    public func withoutNils<T>() -> [T] where Element == T? {
+    @inlinable public func withoutNils<T>() -> [T] where Element == T? {
         compactMap { $0 }
     }
     
