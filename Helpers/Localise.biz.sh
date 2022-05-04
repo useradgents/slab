@@ -73,7 +73,7 @@ LANGUAGES=$(echo ${LOCALISE_LANGUAGES} | tr ',' '\n')
 ##### FETCH ####################################################################
 rm -rf /tmp/localise_strings
 mkdir -p /tmp/localise_strings
-curl "https://localise.biz/api/export/archive/strings.zip?key=${LOCALISE_API_KEY}&filter=!android-only&fallback=${LOCALISE_FALLBACK_LANGUAGE+en}&random=$(date +%s)" --max-time 5 -s > /tmp/localise_strings.zip || exit 0
+curl "https://localise.biz/api/export/archive/strings.zip?key=${LOCALISE_API_KEY}&filter=!android-only&fallback=${LOCALISE_FALLBACK_LANGUAGE+en}" --max-time 5 -s > /tmp/localise_strings.zip || exit 0
 unzip /tmp/localise_strings.zip -d /tmp/localise_strings 2>/dev/null >/dev/null || exit 0
 rm /tmp/localise_strings.zip
 
