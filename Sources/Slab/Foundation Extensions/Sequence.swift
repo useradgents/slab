@@ -34,6 +34,9 @@ extension Sequence {
     /// Use the `↑` and `↓` prefix operators on `KeyPath`s that are `Comparable` to make it even shorter and enhance readability:
     ///
     ///     let allFlowers = flowers.sorted(by: ↑\.name, ↓\.color)
+    ///   instead of
+    ///     let allFlowers = flowers.sorted(by: { if $0.name == $1.name { return $0.color > $1.color } else { return $0.name < $1.name } })
+    ///
     @inlinable public func sorted(by comparators: (Element, Element) -> ComparisonResult...) -> [Element] {
         sorted(by: { a, b -> Bool in
             var comparators = comparators

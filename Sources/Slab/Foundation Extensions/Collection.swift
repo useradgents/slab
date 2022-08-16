@@ -8,10 +8,9 @@ infix operator ∉: ComparisonPrecedence
 @inlinable public func !∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
 @inlinable public func ∉ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
 
-
 // Sugar operators for first, filter, …
 // instead of
-//     let foo = array.first(where: { $0.bar == baz }
+//     let foo = array.first(where: { $0.bar == baz })
 // just write
 //     let foo = array.first(where: \.bar == baz)
 //
