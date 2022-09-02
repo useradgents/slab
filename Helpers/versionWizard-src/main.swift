@@ -200,6 +200,7 @@ enum ASCAppStoreState: String, Decodable {
     case waitingForExportCompliance = "WAITING_FOR_EXPORT_COMPLIANCE"
     case waitingForReview = "WAITING_FOR_REVIEW"
     case replacedWithNewVersion = "REPLACED_WITH_NEW_VERSION"
+    case readyForReview = "READY_FOR_REVIEW"
 
     var hasBeenPublished: Bool {
         switch self {
