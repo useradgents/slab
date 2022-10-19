@@ -10,6 +10,7 @@
      exit 0
 }
 
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 which jq 1>/dev/null || {
     brew update
     brew install jq

@@ -219,6 +219,7 @@ fail() {
 [ -z "${VW_KEY_P8}" ] && fail "VW_KEY_P8 not set"
 
 # Make sure jq is installed
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 which jq >/dev/null || fail "jq is not installed"
 
 # Make sure PlistBuddy is there

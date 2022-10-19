@@ -104,6 +104,7 @@ fail() {
 [ -z ${VW_APP_ID+x} ] && fail "VW_APP_ID not set"
 
 # Make sure jq is installed
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 which jq >/dev/null || fail "jq is not installed"
 
 # Make sure PlistBuddy is there
