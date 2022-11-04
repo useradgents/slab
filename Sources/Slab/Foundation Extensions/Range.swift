@@ -26,11 +26,43 @@ extension ClosedRange: ExpressibleByIntegerLiteral where Bound == Int {
     public static var oneOrMore: ClosedRange<Int> = 1 ... Int.max
 }
 
+extension ClosedRange where Bound: Numeric {
+    /// Returns the length of the range
+    public var extent: Bound { upperBound - lowerBound }
+}
+
 extension Collection {
+    /// Encompasses several ranges into one big range
     public func union<T>() -> ClosedRange<T>? where Element == ClosedRange<T> {
         guard let min = map(\.lowerBound).min() else { return nil }
         guard let max = map(\.upperBound).max() else { return nil }
         return min ... max
+    }
+}
+
+extension FloatingPoint {
+    /// Returns the position of a value inside a range, normalized to 0...1
+    @inlinable public func progress(in range: ClosedRange<Self>) -> Self {
+        (self - range.lowerBound) / (range.upperBound - range.lowerBound)
+    }
+    
+    /// Performs a reference change from a source range to a destination range
+    @inlinable public func map(from sourceRange: ClosedRange<Self> = 0...1, to destRange: ClosedRange<Self> = 0...1, reversed: Bool = false) -> Self {
+        if reversed {
+            return destRange.upperBound - (self - sourceRange.lowerBound) / (sourceRange.upperBound - sourceRange.lowerBound) * (destRange.upperBound - destRange.lowerBound)
+        }
+        else {
+            return destRange.lowerBound + (self - sourceRange.lowerBound) / (sourceRange.upperBound - sourceRange.lowerBound) * (destRange.upperBound - destRange.lowerBound)
+        }
+    }
+}
+
+extension FloatingPoint where Self: BinaryInteger {
+    /// Performs a reference change from a source range to a date range
+    @inlinable public func map(from sourceRange: ClosedRange<Self> = 0...1, to destRange: ClosedRange<Date>) -> Date {
+        let destDaysInterval = Self(Calendar.current.dateComponents([.day], from: destRange.lowerBound, to: destRange.upperBound).day!)
+        let daysSinceStart = (self - sourceRange.lowerBound) / (sourceRange.upperBound - sourceRange.lowerBound) * destDaysInterval
+        return Calendar.current.date(byAdding: .day, value: Int(daysSinceStart), to: destRange.lowerBound)!
     }
 }
 
@@ -52,4 +84,20 @@ extension Comparable {
         if self >= range.upperBound { return .after }
         return .inside
     }
+}
+
+extension Collection where Element: Comparable {
+    /// Returns the min...max range from this array of values.
+    @inlinable var range: ClosedRange<Element>? {
+        guard let min = self.min(), let max = self.max() else { return nil }
+        return min...max
+    }
+}
+
+extension CGRect {
+    /// The x values range
+    var xRange: ClosedRange<CGFloat> { minX...maxX }
+    
+    /// The y values range
+    var yRange: ClosedRange<CGFloat> { minY...maxY }
 }

@@ -7,6 +7,18 @@ public extension Numeric {
     }
 }
 
+public extension Numeric where Self: Comparable {
+    /// Returns an array from this value, up to another value, with a custom optional step (interval)
+    func upTo(_ other: Self, step: Self = 1) -> [Self] {
+        var ret = [Self](); var last = self
+        while last <= other {
+            ret.append(last)
+            last += step
+        }
+        return ret
+    }
+}
+
 /*
  
  Fall In :
@@ -44,6 +56,7 @@ to │        ╎   ╲  ╎
 public extension FloatingPoint {
     
     /// Maps value from the range `inRange` to `outRange`, rising up. Values outside of `inRange` are clamped.
+    @available(*, deprecated, message: "Use `map(from: inRange, to: outRange)` instead")
     func fallIn(from inRange: ClosedRange<Self>, to outRange: ClosedRange<Self> = 0...1) -> Self {
         guard inRange.upperBound > inRange.lowerBound else { return outRange.lowerBound }
         
@@ -54,6 +67,7 @@ public extension FloatingPoint {
     }
     
     /// Maps value from the range `inRange` to `outRange`, falling down. Values outside of `inRange` are clamped.
+    @available(*, deprecated, message: "Use `map(from: inRange, to: outRange, reverse: true)` instead")
     func fallOff(from inRange: ClosedRange<Self>, to outRange: ClosedRange<Self> = 0...1) -> Self {
         guard inRange.upperBound > inRange.lowerBound else { return outRange.lowerBound }
         
