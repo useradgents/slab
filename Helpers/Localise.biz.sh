@@ -86,14 +86,14 @@ for LANG in $LANGUAGES; do
     [ -z ${LOCALISE_LOCALIZABLESTRINGS_PATH+x} ] || {
         cat /tmp/foo.strings | grep -v " \* Exported " | sed 's/%s/%@/g' > /tmp/Localizable.strings
         mkdir -p "${PROJECT_DIR}/${LOCALISE_LOCALIZABLESTRINGS_PATH}/${LANG}.lproj/"
-        iconv -f UTF-8 -t UTF-16 /tmp/Localizable.strings > "${PROJECT_DIR}/${LOCALISE_LOCALIZABLESTRINGS_PATH}/${LANG}.lproj/Localizable.strings"
+        cp /tmp/Localizable.strings "${PROJECT_DIR}/${LOCALISE_LOCALIZABLESTRINGS_PATH}/${LANG}.lproj/Localizable.strings"
     }
     
     # Extract stuff for Infoplist.strings
     [ -z ${LOCALISE_INFOPLISTSTRINGS_PATH+x} ] || {
         cat /tmp/foo.strings | grep "^\"ios_infoplist_" | sed 's/%s/%@/g' | sed "s/ios_infoplist_//" > /tmp/infoplist.strings
         mkdir -p "${PROJECT_DIR}/${LOCALISE_INFOPLISTSTRINGS_PATH}/${LANG}.lproj/"
-        iconv -f UTF-8 -t UTF-16 /tmp/infoplist.strings > "${PROJECT_DIR}/${LOCALISE_INFOPLISTSTRINGS_PATH}/${LANG}.lproj/InfoPlist.strings"
+        cp /tmp/infoplist.strings "${PROJECT_DIR}/${LOCALISE_INFOPLISTSTRINGS_PATH}/${LANG}.lproj/InfoPlist.strings"
     }
 done
 
