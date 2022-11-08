@@ -1,4 +1,5 @@
 import Foundation
+import CoreGraphics
 
 infix operator .... : RangeFormationPrecedence
 infix operator ...< : RangeFormationPrecedence
