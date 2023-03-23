@@ -4,9 +4,9 @@ infix operator ∈: ComparisonPrecedence
 infix operator !∈: ComparisonPrecedence
 infix operator ∉: ComparisonPrecedence
 
-@inlinable public func ∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { rhs.contains(lhs) }
-@inlinable public func !∈ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
-@inlinable public func ∉ <T: Equatable>(lhs: T, rhs: [T]) -> Bool { !rhs.contains(lhs) }
+@inlinable public func ∈ <T: Equatable, C: Collection>(lhs: T, rhs: C) -> Bool where C.Element == T { rhs.contains(lhs) }
+@inlinable public func !∈ <T: Equatable, C: Collection>(lhs: T, rhs: C) -> Bool where C.Element == T { !rhs.contains(lhs) }
+@inlinable public func ∉ <T: Equatable, C: Collection>(lhs: T, rhs: C) -> Bool where C.Element == T { !rhs.contains(lhs) }
 
 // Sugar operators for first, filter, …
 // instead of
