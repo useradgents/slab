@@ -14,6 +14,10 @@ infix operator ...< : RangeFormationPrecedence
     min(lhs, rhs) ..< max(lhs, rhs)
 }
 
+@inlinable public func ∈ <T: Equatable, C: RangeExpression>(lhs: T, rhs: C) -> Bool where C.Bound == T { rhs.contains(lhs) }
+@inlinable public func !∈ <T: Equatable, C: RangeExpression>(lhs: T, rhs: C) -> Bool where C.Bound == T { !rhs.contains(lhs) }
+@inlinable public func ∉ <T: Equatable, C: RangeExpression>(lhs: T, rhs: C) -> Bool where C.Bound == T { !rhs.contains(lhs) }
+
 extension ClosedRange: ExpressibleByIntegerLiteral where Bound == Int {
     /// Creates a closed range with just an Int
     public init(integerLiteral value: Int) {
