@@ -37,14 +37,14 @@ extension Date {
     @inlinable public var isToday: Bool { midnight == Date().midnight }
     
     /// Returns a Bool indicating whether the Date is tomorrow, according to the current Calendar
-    @inlinable public var isTomorrow: Bool { midnight == Date.tomorrow.midnight }
+    @inlinable public var isTomorrow: Bool { midnight == Date.tomorrow?.midnight }
     
     /// Returns a Bool indicating whether the Date is tomorrow, according to the current Calendar
-    @inlinable public var isAfterTomorrow: Bool { midnight == Date.afterTomorrow.midnight }
+    @inlinable public var isAfterTomorrow: Bool { midnight == Date.afterTomorrow?.midnight }
 
     /// Returns a Date with hour, minute and second components set to 0, according to the current Calendar
-    @inlinable public var midnight: Date {
-        Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)!
+    @inlinable public var midnight: Date? {
+        Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)
     }
     
     /// Returns a Date with hour and minute set to a HoursMinute instance, and seconds to zero, according to the current Calendar
@@ -53,33 +53,45 @@ extension Date {
     }
     
     /// Returns the timeInterval since midnight, according to the current Calendar
-    @inlinable public var timeIntervalSinceMidnight: TimeInterval {
-        timeIntervalSince(midnight)
+    @inlinable public var timeIntervalSinceMidnight: TimeInterval? {
+        guard let midnight else {
+            return nil
+        }
+        return timeIntervalSince(midnight)
     }
     
     /// Returns a Date set to the beginning of the current day, according to the current Calendar
-    @inlinable public static var midnight: Date {
+    @inlinable public static var midnight: Date? {
         Date().midnight
     }
 
     /// Returns the timeInterval of the beginning of the current day, according to the current Calendar
-    @inlinable public static var timeIntervalSinceMidnight: TimeInterval {
+    @inlinable public static var timeIntervalSinceMidnight: TimeInterval? {
         Date().timeIntervalSinceMidnight
     }
     
     /// Returns a Date set to the beginning of tomorrow, according to the current Calendar
-    @inlinable public static var tomorrow: Date {
-        Date().midnight >> 1.day
+    @inlinable public static var tomorrow: Date? {
+        guard let midnight = Date().midnight else {
+            return nil
+        }
+        return midnight >> 1.day
     }
     
     /// Returns a Date set to the beginning of after tomorrow, according to the current Calendar
-    @inlinable public static var afterTomorrow: Date {
-        Date().midnight >> 2.day
+    @inlinable public static var afterTomorrow: Date? {
+        guard let midnight = Date().midnight else {
+            return nil
+        }
+        return midnight >> 2.day
     }
     
     /// Returns a Date set to the beginning of yesterday, according to the current Calendar
-    @inlinable public static var yesterday: Date {
-        Date().midnight >> (-1).day
+    @inlinable public static var yesterday: Date? {
+        guard let midnight = Date().midnight else {
+            return nil
+        }
+        return midnight >> (-1).day
     }
     
     /// Returns the number of days between this date and now. Use on past dates.
