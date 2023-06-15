@@ -260,6 +260,11 @@ JSON=`mktemp`.json || fail "Unable to create temporary file"
 PUBLIC="$(jq -r '.public' $JSON)"
 BUILD="$(jq -r '.build' $JSON)"
 rm $JSON
+# Export variables to be used in Bitrise CI thought envman
+which envman 2>/dev/null && {
+    envman add --key APP_VERSION --value "${PUBLIC}"
+    envman add --key APP_BUILD --value "${BUILD}"
+}
 
 # Change build number into public.build if needed
 [ -z ${VW_PREPEND_PUBLIC_TO_BUILD+x} ] || BUILD="$PUBLIC.$BUILD"

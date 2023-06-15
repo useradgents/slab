@@ -124,6 +124,11 @@ curl "https://uad.io/versionWizard.php?id=${VW_APP_ID}&commit=${COMMIT}" -o $JSO
 PUBLIC="$(jq -r '.publicVersion' $JSON)"
 BUILD="$(jq -r '.buildNumber' $JSON)"
 rm $JSON
+# Export variables to be used in Bitrise CI thought envman
+which envman 2>/dev/null && {
+    envman add --key APP_VERSION --value "${PUBLIC}"
+    envman add --key APP_BUILD --value "${BUILD}"
+}
 
 # Change public version format based on flags
 if [ "${VW_PUBLIC_VERSION_MODE}" = "semver_nozero" ]; then
