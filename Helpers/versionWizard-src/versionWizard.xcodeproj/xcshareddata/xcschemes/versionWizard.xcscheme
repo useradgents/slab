@@ -56,35 +56,35 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "###Equidia###"
+            argument = "###Argos###"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--app-id=484006842"
+            argument = "--app-id=1626053813"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--train=6.11"
-            isEnabled = "YES">
+            argument = "--train=1"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--platform=ios"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--commit= b90c9b43a6dc7bbbc034ad0f64791bb46837f574"
+            argument = "--commit=aa126c89a40187d2f041c1c1673f36bd16201bf4"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--key-id=T4Q48FL2DG"
+            argument = "--key-id=C4WNXL5839"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--issuer=69a6de75-412d-47e3-e053-5b8c7c11a4d1"
+            argument = "--issuer=0f66fccb-d467-4b9f-84fa-63ec9c52af3f"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--p8=/Users/clegrand/Useradgents/IT/Apple/AppStoreConnect\ Keys/Equidia/AuthKey_T4Q48FL2DG.p8"
+            argument = "--p8=/Users/clegrand/Useradgents/IT/AuthKey_C4WNXL5839.p8"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

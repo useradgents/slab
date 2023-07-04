@@ -262,7 +262,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7D5NQS3DMM;
+				DEVELOPMENT_TEAM = 4KE44M8274;
 				ENABLE_HARDENED_RUNTIME = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -272,7 +272,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7D5NQS3DMM;
+				DEVELOPMENT_TEAM = 4KE44M8274;
 				ENABLE_HARDENED_RUNTIME = YES;
 				SWIFT_VERSION = 5.0;
 			};
