@@ -256,7 +256,20 @@ fi
 # (Full source code for versionWizard available on our bitbucket repository,
 # alongside Slab)
 JSON=`mktemp`.json || fail "Unable to create temporary file"
-"$WIZARD" --issuer=${VW_KEY_ISSUER} --key-id=${VW_KEY_ID} --p8="$VW_KEY_P8" --app-id=${VW_APP_ID} --commit=${COMMIT} ${TRAINOPT} > $JSON || fail "Failed to run versionWizard native script"
+"$WIZARD" --issuer=${VW_KEY_ISSUER} --key-id=${VW_KEY_ID} --p8="$VW_KEY_P8" --app-id=${VW_APP_ID} --commit=${COMMIT} ${TRAINOPT} > $JSON || {
+	echo "Failed to run versionWizard native script"
+	echo "Issuer: ${VW_KEY_ISSUER}"
+	echo "Key ID: ${VW_KEY_ID}"
+	echo "P8: ${WK_KEY_P8}"
+	echo "App ID: ${VW_APP_ID}"
+	echo "Commit: ${COMMIT}"
+	echo "Train: ${TRAINOPT}"
+	echo "P8 contents:"
+	cat $VW_KEY_P8
+	echo ""
+	echo ""
+	fail "Native script failure"
+}
 PUBLIC="$(jq -r '.public' $JSON)"
 BUILD="$(jq -r '.build' $JSON)"
 rm $JSON
