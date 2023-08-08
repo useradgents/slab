@@ -8,11 +8,8 @@ let package = Package(
     products: [
         .library(name: "Slab", targets: ["Slab"])
     ],
-    dependencies: [
-        .package(name: "RNCryptor", url: "https://github.com/RNCryptor/RNCryptor.git", from: "5.1.0")
-    ],
     targets: [
-        .target(name: "Slab", dependencies: ["RNCryptor"]),
+        .target(name: "Slab", dependencies: []),
         .testTarget(name: "SlabTests", dependencies: ["Slab"]),
     ],
     swiftLanguageVersions: [.v5]
