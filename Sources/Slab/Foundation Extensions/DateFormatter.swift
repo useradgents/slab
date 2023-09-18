@@ -53,10 +53,10 @@ extension DateFormatter {
         .with(\DateFormatter.timeZone, TimeZone(secondsFromGMT: 0))
     
     /// Common DateFormatter with ISO8601 date+time format with millisecond precision
-    public static var isoDateTimeMilliseconds = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z")
+    public static var isoDateTimeMilliseconds = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     
     /// Common DateFormatter with ISO8601 date+time format with millisecond precision and no timezone
-    public static var isoDateTimeMillisecondsAbsolute = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z")
+    public static var isoDateTimeMillisecondsAbsolute = DateFormatter(dateFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         .with(\DateFormatter.calendar, Calendar(identifier: .iso8601))
         .with(\DateFormatter.locale, Locale(identifier: "en_US_POSIX"))
         .with(\DateFormatter.timeZone, TimeZone(secondsFromGMT: 0))
