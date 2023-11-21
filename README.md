@@ -478,3 +478,38 @@ struct DebugMenu: View {
     }
 }
 ```
+
+## SwiftFormat
+Shell script that download a configuration file and use this file to perform SwiftFormat process.
+The goal is to have a reference file which can be maintained for all our projects.
+
+### Setup
+- A single mandatory user-defined Build Setting must be created: `RULES_PATH`, which is defined the configuration file place in project.
+- Create a Run Script Build Phase (at the beginning, above Compile Sources phase) named `SwiftFormat Fetcher`, with the following contents:
+
+```
+# Set the URL of the .swiftformat file
+SWIFTFORMAT_FILE_URL="https://bitbucket.org/useradgents/main/raw/HEAD/.swiftformat"
+
+# Download the .swiftformat file
+curl -L -o "${RULES_PATH}" "${SWIFTFORMAT_FILE_URL}"
+
+# Check if the download was successful
+if [ $? -eq 0 ]; then
+    echo ".swiftformat file downloaded successfully."
+    
+    # Make sure jq is installed
+    export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+    which jq >/dev/null || fail "jq is not installed"
+    
+    # Check if SwiftFormat is available in the PATH
+    if which swiftformat > /dev/null; then
+      swiftformat .
+    else
+      echo "error: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat"
+    fi
+else
+    echo "Failed to download .swiftformat file."
+    exit 1
+fi
+```
