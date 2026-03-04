@@ -1,6 +1,7 @@
 import Foundation
 import RNCryptor
 
+@Observable
 public class EnvironmentManager {
     public let allEnvironments: [RuntimeEnvironment]
     public private(set) var current: RuntimeEnvironment
