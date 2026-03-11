@@ -478,3 +478,37 @@ struct DebugMenu: View {
     }
 }
 ```
+
+## SwiftFormat
+Shell script that download a configuration file and use this file to perform SwiftFormat process.
+The goal is to have a reference file which can be maintained for all our projects.
+
+### Setup
+- Add a "Run Script" build phase, name it "SwiftFormat Fetcher", and ensure it runs **before** "Compile Sources". Script contents :
+
+```
+# Create a temporary file
+CONFIG_FILE=`mktemp`.swiftformat || fail "Unable to create temporary file"
+
+# Download the .swiftformat file
+curl "https://bitbucket.org/useradgents/main/raw/HEAD/.swiftformat" -o $CONFIG_FILE 2>/dev/null
+
+# Check if the download was successful
+[ $? -eq 0  ] || {
+    echo "Failed to download config file";
+    exit 1
+}
+
+# Check if Swiftformat is correctly installed
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+which swiftformat >/dev/null || {
+    echo "warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat"
+    exit 0
+}
+
+# Use the temporary file to perform the swiftformat process
+swiftformat --config $CONFIG_FILE .
+
+# Remove the unecessary temporary file
+rm $CONFIG_FILE
+```
